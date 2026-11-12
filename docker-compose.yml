@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: mymo
+      POSTGRES_PASSWORD: mymo
+      POSTGRES_DB: mymo
+    ports:
+      - "5432:5432"
+    volumes:
+      - mymo-pg:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  mymo-pg:
