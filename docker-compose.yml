@@ -1,34 +1,153 @@
+x-api-environment: &api-environment
+  Jwt__Secret: ${MYMO_JWT_SECRET:?Set MYMO_JWT_SECRET in .env}
+  Internal__Key: ${MYMO_INTERNAL_KEY:?Set MYMO_INTERNAL_KEY in .env}
+  Messaging__RabbitMq: amqp://mymo:${MYMO_RABBITMQ_PASSWORD:?Set MYMO_RABBITMQ_PASSWORD in .env}@rabbitmq:5672
+  Messaging__Kafka: kafka:9092
+  Services__Identity: http://identity:5001
+  Services__Social: http://social:5002
+  Services__Map: http://map:5003
+  Services__Chat: http://chat:5004
+  Services__Business: http://business:5005
+
+x-upload-environment: &upload-environment
+  Uploads__Directory: /app/uploads
+  PublicOrigin: ${MYMO_PUBLIC_ORIGIN:-http://localhost:${MYMO_GATEWAY_PORT:-5079}}
+
+x-dotnet-build: &dotnet-build
+  context: .
+  dockerfile: docker/Dockerfile
+
 services:
-  postgres:
-    image: postgres:16
+  identity:
+    build:
+      <<: *dotnet-build
+      args:
+        PROJECT: src/Mymo.Identity/Mymo.Identity.Api/Mymo.Identity.Api.csproj
+    command: [Mymo.Identity.Api.dll]
     environment:
-      POSTGRES_USER: mymo
-      POSTGRES_PASSWORD: mymo
-      POSTGRES_DB: mymo
+      <<: [*api-environment, *upload-environment]
+      ConnectionStrings__Database: Data Source=/app/data/mymo_identity.db
     ports:
-      - "5432:5432"
+      - "127.0.0.1:${MYMO_IDENTITY_PORT:-5001}:5001"
     volumes:
-      - mymo-pg:/var/lib/postgresql/data
-      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - identity-data:/app/data
+      - uploads:/app/uploads
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  social:
+    build:
+      <<: *dotnet-build
+      args:
+        PROJECT: src/Mymo.Social/Mymo.Social.Api/Mymo.Social.Api.csproj
+    command: [Mymo.Social.Api.dll]
+    environment:
+      <<: [*api-environment, *upload-environment]
+      ConnectionStrings__Database: Data Source=/app/data/mymo_social.db
+    ports:
+      - "127.0.0.1:${MYMO_SOCIAL_PORT:-5002}:5002"
+    volumes:
+      - social-data:/app/data
+      - uploads:/app/uploads
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      kafka-init:
+        condition: service_completed_successfully
+
+  map:
+    build:
+      <<: *dotnet-build
+      args:
+        PROJECT: src/Mymo.Map/Mymo.Map.Api/Mymo.Map.Api.csproj
+    command: [Mymo.Map.Api.dll]
+    environment:
+      <<: *api-environment
+      ConnectionStrings__Database: Data Source=/app/data/mymo_map.db
+    ports:
+      - "127.0.0.1:${MYMO_MAP_PORT:-5003}:5003"
+    volumes:
+      - map-data:/app/data
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      kafka-init:
+        condition: service_completed_successfully
+
+  chat:
+    build:
+      <<: *dotnet-build
+      args:
+        PROJECT: src/Mymo.Chat/Mymo.Chat.Api/Mymo.Chat.Api.csproj
+    command: [Mymo.Chat.Api.dll]
+    environment:
+      <<: *api-environment
+      ConnectionStrings__Database: Data Source=/app/data/mymo_chat.db
+    ports:
+      - "127.0.0.1:${MYMO_CHAT_PORT:-5004}:5004"
+    volumes:
+      - chat-data:/app/data
+
+  business:
+    build:
+      <<: *dotnet-build
+      args:
+        PROJECT: src/Mymo.Business/Mymo.Business.Api/Mymo.Business.Api.csproj
+    command: [Mymo.Business.Api.dll]
+    environment:
+      <<: *api-environment
+      ConnectionStrings__Database: Data Source=/app/data/mymo_business.db
+    ports:
+      - "127.0.0.1:${MYMO_BUSINESS_PORT:-5005}:5005"
+    volumes:
+      - business-data:/app/data
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+
+  gateway:
+    build:
+      <<: *dotnet-build
+      args:
+        PROJECT: src/Mymo.Gateway/Mymo.Gateway.csproj
+    command: [Mymo.Gateway.dll]
+    environment:
+      ReverseProxy__Clusters__identity__Destinations__d1__Address: http://identity:5001
+      ReverseProxy__Clusters__social__Destinations__d1__Address: http://social:5002
+      ReverseProxy__Clusters__map__Destinations__d1__Address: http://map:5003
+      ReverseProxy__Clusters__chat__Destinations__d1__Address: http://chat:5004
+      ReverseProxy__Clusters__business__Destinations__d1__Address: http://business:5005
+    ports:
+      - "127.0.0.1:${MYMO_GATEWAY_PORT:-5079}:5079"
+    depends_on:
+      - identity
+      - social
+      - map
+      - chat
+      - business
 
   rabbitmq:
     image: rabbitmq:3-management
-    ports:
-      - "5672:5672"
-      - "15672:15672"
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: mymo
+      RABBITMQ_DEFAULT_PASS: ${MYMO_RABBITMQ_PASSWORD:?Set MYMO_RABBITMQ_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:${MYMO_RABBITMQ_UI_PORT:-15672}:15672"
+    healthcheck:
+      test: [CMD, rabbitmq-diagnostics, -q, check_port_connectivity]
+      interval: 5s
+      timeout: 10s
+      retries: 12
+      start_period: 15s
 
   kafka:
     image: apache/kafka:3.8.0
-    ports:
-      - "9092:9092"
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
@@ -37,6 +156,49 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+    healthcheck:
+      test: [CMD, /opt/kafka/bin/kafka-topics.sh, --bootstrap-server, kafka:9092, --list]
+      interval: 10s
+      timeout: 10s
+      retries: 12
+      start_period: 20s
+
+  kafka-init:
+    image: apache/kafka:3.8.0
+    entrypoint: [/opt/kafka/bin/kafka-topics.sh]
+    command:
+      - --bootstrap-server
+      - kafka:9092
+      - --create
+      - --if-not-exists
+      - --topic
+      - mymo.social.post-created
+      - --partitions
+      - "1"
+      - --replication-factor
+      - "1"
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+  postgres:
+    profiles: [postgres]
+    image: postgres:16
+    environment:
+      POSTGRES_USER: mymo
+      POSTGRES_PASSWORD: ${MYMO_POSTGRES_PASSWORD:-}
+      POSTGRES_DB: mymo
+    ports:
+      - "127.0.0.1:${MYMO_POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - mymo-pg:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
 
 volumes:
+  identity-data:
+  social-data:
+  map-data:
+  chat-data:
+  business-data:
+  uploads:
   mymo-pg:

@@ -5,9 +5,13 @@ namespace Mymo.Shared;
 
 public static class Uploads
 {
+    public static string GetDirectory(IConfiguration config) => Path.GetFullPath(
+        config["Uploads:Directory"] ??
+        Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", "..", "data", "uploads"));
+
     public static async Task<string> Save(IConfiguration config, IFormFile file)
     {
-        var root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", "data", "uploads"));
+        var root = GetDirectory(config);
         Directory.CreateDirectory(root);
         var ext = Path.GetExtension(file.FileName);
         if (string.IsNullOrWhiteSpace(ext)) ext = ".jpg";

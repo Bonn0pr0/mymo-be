@@ -34,6 +34,9 @@ public sealed class KafkaConsumerHostedService<T> : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        // Consume blocks while the topic is idle. Let the web host finish starting first.
+        await Task.Yield();
+
         var bootstrap = _config["Messaging:Kafka"] ?? "localhost:9092";
         using var consumer = new ConsumerBuilder<Ignore, string>(new ConsumerConfig
         {

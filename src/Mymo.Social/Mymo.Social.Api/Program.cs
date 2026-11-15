@@ -11,7 +11,7 @@ builder.Services.AddSocialDal(builder.Configuration);
 builder.Services.AddSocialBll();
 
 var app = builder.Build();
-var uploads = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", "..", "data", "uploads"));
+var uploads = Uploads.GetDirectory(builder.Configuration);
 Directory.CreateDirectory(uploads);
 app.UseStaticFiles(new StaticFileOptions
 {
