@@ -1,2 +1,31 @@
 <Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Mymo.Shared/Mymo.Shared.csproj" />
+    <Project Path="src/Mymo.Gateway/Mymo.Gateway.csproj" />
+  </Folder>
+  <Folder Name="/src/Mymo.Identity/">
+    <Project Path="src/Mymo.Identity/Mymo.Identity.Dal/Mymo.Identity.Dal.csproj" />
+    <Project Path="src/Mymo.Identity/Mymo.Identity.Bll/Mymo.Identity.Bll.csproj" />
+    <Project Path="src/Mymo.Identity/Mymo.Identity.Api/Mymo.Identity.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/Mymo.Business/">
+    <Project Path="src/Mymo.Business/Mymo.Business.Dal/Mymo.Business.Dal.csproj" />
+    <Project Path="src/Mymo.Business/Mymo.Business.Bll/Mymo.Business.Bll.csproj" />
+    <Project Path="src/Mymo.Business/Mymo.Business.Api/Mymo.Business.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/Mymo.Social/">
+    <Project Path="src/Mymo.Social/Mymo.Social.Dal/Mymo.Social.Dal.csproj" />
+    <Project Path="src/Mymo.Social/Mymo.Social.Bll/Mymo.Social.Bll.csproj" />
+    <Project Path="src/Mymo.Social/Mymo.Social.Api/Mymo.Social.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/Mymo.Chat/">
+    <Project Path="src/Mymo.Chat/Mymo.Chat.Dal/Mymo.Chat.Dal.csproj" />
+    <Project Path="src/Mymo.Chat/Mymo.Chat.Bll/Mymo.Chat.Bll.csproj" />
+    <Project Path="src/Mymo.Chat/Mymo.Chat.Api/Mymo.Chat.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/Mymo.Map/">
+    <Project Path="src/Mymo.Map/Mymo.Map.Dal/Mymo.Map.Dal.csproj" />
+    <Project Path="src/Mymo.Map/Mymo.Map.Bll/Mymo.Map.Bll.csproj" />
+    <Project Path="src/Mymo.Map/Mymo.Map.Api/Mymo.Map.Api.csproj" />
+  </Folder>
 </Solution>

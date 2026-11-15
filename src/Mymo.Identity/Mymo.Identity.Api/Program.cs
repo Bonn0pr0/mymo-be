@@ -1,0 +1,28 @@
+using Mymo.Identity;
+using Mymo.Identity.Bll;
+using Mymo.Identity.Dal;
+using Mymo.Identity.Data;
+using Mymo.Shared;
+using Mymo.Shared.Messaging;
+
+var builder = WebApplication.CreateBuilder(args);
+MymoService.Add(builder.Services, builder.Configuration);
+builder.Services.AddIdentityDal(builder.Configuration);
+builder.Services.AddIdentityBll();
+builder.Services.AddRabbitConsumer<SetUserRoleCommand>(Queues.SetUserRole, async (sp, cmd, _) =>
+    await sp.GetRequiredService<UserService>().ApplyRole(cmd.UserId, cmd.Role));
+builder.Services.AddRabbitConsumer<SetUserPremiumCommand>(Queues.SetUserPremium, async (sp, cmd, _) =>
+    await sp.GetRequiredService<UserService>().ApplyPremium(cmd.UserId, cmd.IsPremium));
+builder.Services.AddRabbitConsumer<CreateReportCommand>(Queues.CreateReport, async (sp, cmd, _) =>
+    await sp.GetRequiredService<AdminService>().CreateReport(cmd));
+
+var app = builder.Build();
+MymoService.Use(app);
+IdentityEndpoints.Map(app);
+
+using (var scope = app.Services.CreateScope())
+{
+    await IdentitySeed.Run(scope.ServiceProvider.GetRequiredService<IdentityDbContext>());
+}
+
+app.Run();

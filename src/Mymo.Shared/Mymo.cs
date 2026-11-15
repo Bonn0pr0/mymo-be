@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Mymo.Shared.Messaging;
 
 namespace Mymo.Shared;
 
@@ -201,6 +202,7 @@ public static class MymoService
             client.Timeout = TimeSpan.FromSeconds(4);
             client.DefaultRequestHeaders.Add("X-Internal-Key", config["Internal:Key"] ?? "mymo-local");
         });
+        services.AddMymoMessaging(config);
     }
 
     public static void Use(WebApplication app)
