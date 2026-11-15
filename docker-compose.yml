@@ -13,22 +13,14 @@ x-upload-environment: &upload-environment
   Uploads__Directory: /app/uploads
   PublicOrigin: ${MYMO_PUBLIC_ORIGIN:-http://localhost:${MYMO_GATEWAY_PORT:-5079}}
 
-x-dotnet-build: &dotnet-build
-  context: .
-  dockerfile: docker/Dockerfile
-
 services:
   identity:
     build:
-      <<: *dotnet-build
-      args:
-        PROJECT: src/Mymo.Identity/Mymo.Identity.Api/Mymo.Identity.Api.csproj
-    command: [Mymo.Identity.Api.dll]
+      context: .
+      dockerfile: src/Mymo.Identity/Mymo.Identity.Api/Dockerfile.compose
     environment:
       <<: [*api-environment, *upload-environment]
       ConnectionStrings__Database: Data Source=/app/data/mymo_identity.db
-    ports:
-      - "127.0.0.1:${MYMO_IDENTITY_PORT:-5001}:5001"
     volumes:
       - identity-data:/app/data
       - uploads:/app/uploads
@@ -38,15 +30,11 @@ services:
 
   social:
     build:
-      <<: *dotnet-build
-      args:
-        PROJECT: src/Mymo.Social/Mymo.Social.Api/Mymo.Social.Api.csproj
-    command: [Mymo.Social.Api.dll]
+      context: .
+      dockerfile: src/Mymo.Social/Mymo.Social.Api/Dockerfile.compose
     environment:
       <<: [*api-environment, *upload-environment]
       ConnectionStrings__Database: Data Source=/app/data/mymo_social.db
-    ports:
-      - "127.0.0.1:${MYMO_SOCIAL_PORT:-5002}:5002"
     volumes:
       - social-data:/app/data
       - uploads:/app/uploads
@@ -58,15 +46,11 @@ services:
 
   map:
     build:
-      <<: *dotnet-build
-      args:
-        PROJECT: src/Mymo.Map/Mymo.Map.Api/Mymo.Map.Api.csproj
-    command: [Mymo.Map.Api.dll]
+      context: .
+      dockerfile: src/Mymo.Map/Mymo.Map.Api/Dockerfile.compose
     environment:
       <<: *api-environment
       ConnectionStrings__Database: Data Source=/app/data/mymo_map.db
-    ports:
-      - "127.0.0.1:${MYMO_MAP_PORT:-5003}:5003"
     volumes:
       - map-data:/app/data
     depends_on:
@@ -77,29 +61,21 @@ services:
 
   chat:
     build:
-      <<: *dotnet-build
-      args:
-        PROJECT: src/Mymo.Chat/Mymo.Chat.Api/Mymo.Chat.Api.csproj
-    command: [Mymo.Chat.Api.dll]
+      context: .
+      dockerfile: src/Mymo.Chat/Mymo.Chat.Api/Dockerfile.compose
     environment:
       <<: *api-environment
       ConnectionStrings__Database: Data Source=/app/data/mymo_chat.db
-    ports:
-      - "127.0.0.1:${MYMO_CHAT_PORT:-5004}:5004"
     volumes:
       - chat-data:/app/data
 
   business:
     build:
-      <<: *dotnet-build
-      args:
-        PROJECT: src/Mymo.Business/Mymo.Business.Api/Mymo.Business.Api.csproj
-    command: [Mymo.Business.Api.dll]
+      context: .
+      dockerfile: src/Mymo.Business/Mymo.Business.Api/Dockerfile.compose
     environment:
       <<: *api-environment
       ConnectionStrings__Database: Data Source=/app/data/mymo_business.db
-    ports:
-      - "127.0.0.1:${MYMO_BUSINESS_PORT:-5005}:5005"
     volumes:
       - business-data:/app/data
     depends_on:
@@ -108,16 +84,13 @@ services:
 
   gateway:
     build:
-      <<: *dotnet-build
+      context: .
+      dockerfile: docker/Dockerfile
       args:
         PROJECT: src/Mymo.Gateway/Mymo.Gateway.csproj
     command: [Mymo.Gateway.dll]
     environment:
-      ReverseProxy__Clusters__identity__Destinations__d1__Address: http://identity:5001
-      ReverseProxy__Clusters__social__Destinations__d1__Address: http://social:5002
-      ReverseProxy__Clusters__map__Destinations__d1__Address: http://map:5003
-      ReverseProxy__Clusters__chat__Destinations__d1__Address: http://chat:5004
-      ReverseProxy__Clusters__business__Destinations__d1__Address: http://business:5005
+      DOTNET_ENVIRONMENT: Docker
     ports:
       - "127.0.0.1:${MYMO_GATEWAY_PORT:-5079}:5079"
     depends_on:
@@ -132,8 +105,6 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: mymo
       RABBITMQ_DEFAULT_PASS: ${MYMO_RABBITMQ_PASSWORD:?Set MYMO_RABBITMQ_PASSWORD in .env}
-    ports:
-      - "127.0.0.1:${MYMO_RABBITMQ_UI_PORT:-15672}:15672"
     healthcheck:
       test: [CMD, rabbitmq-diagnostics, -q, check_port_connectivity]
       interval: 5s
@@ -188,11 +159,12 @@ services:
       POSTGRES_USER: mymo
       POSTGRES_PASSWORD: ${MYMO_POSTGRES_PASSWORD:-}
       POSTGRES_DB: mymo
-    ports:
-      - "127.0.0.1:${MYMO_POSTGRES_PORT:-5432}:5432"
     volumes:
       - mymo-pg:/var/lib/postgresql/data
       - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+networks:
+  default: {}
 
 volumes:
   identity-data:

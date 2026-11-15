@@ -1,0 +1,14 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY src/Mymo.Shared/ src/Mymo.Shared/
+COPY src/Mymo.Map/ src/Mymo.Map/
+RUN --mount=type=cache,id=mymo-nuget,target=/root/.nuget/packages,sharing=locked \
+    dotnet publish src/Mymo.Map/Mymo.Map.Api/Mymo.Map.Api.csproj --configuration Release --output /publish /p:UseAppHost=false
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+RUN install -d -o app -g app /app/data
+COPY --from=build /publish/ ./
+USER app
+EXPOSE 5003
+ENTRYPOINT ["dotnet", "Mymo.Map.Api.dll"]
