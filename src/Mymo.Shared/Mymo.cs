@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Mymo.Shared.Messaging;
 
 namespace Mymo.Shared;
@@ -157,7 +158,7 @@ public static class Internal
 
 public static class MymoService
 {
-    public static void Add(IServiceCollection services, IConfiguration config)
+    public static void Add(IServiceCollection services, IConfiguration config, string serviceName = "Mymo API")
     {
         services.ConfigureHttpJsonOptions(options =>
         {
@@ -203,12 +204,52 @@ public static class MymoService
             client.DefaultRequestHeaders.Add("X-Internal-Key", config["Internal:Key"] ?? "mymo-local");
         });
         services.AddMymoMessaging(config);
+
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = serviceName,
+                Version = "v1",
+                Description = $"Swagger API documentation for {serviceName}"
+            });
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Description = "JWT Authorization header using the Bearer scheme. Format: Bearer {token}",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = "Bearer",
+                BearerFormat = "JWT"
+            });
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+        });
     }
 
-    public static void Use(WebApplication app)
+    public static void Use(WebApplication app, string serviceName = "Mymo API")
     {
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{serviceName} v1");
+            c.RoutePrefix = "swagger";
+        });
         app.MapGet("/health", () => Results.Ok(new { ok = true }));
     }
 }

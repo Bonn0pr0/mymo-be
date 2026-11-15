@@ -35,43 +35,51 @@ public sealed class RabbitConsumerHostedService<T> : BackgroundService
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var factory = new ConnectionFactory
+        try
         {
-            Uri = new Uri(_config["Messaging:RabbitMq"] ?? "amqp://guest:guest@localhost:5672"),
-            DispatchConsumersAsync = true,
-        };
-        _connection = factory.CreateConnection($"mymo-consumer-{_queue}");
-        _channel = _connection.CreateModel();
-        _channel.QueueDeclare(_queue, durable: true, exclusive: false, autoDelete: false);
-        _channel.BasicQos(0, 1, false);
-
-        var consumer = new AsyncEventingBasicConsumer(_channel);
-        consumer.Received += async (_, args) =>
-        {
-            try
+            var factory = new ConnectionFactory
             {
-                var json = Encoding.UTF8.GetString(args.Body.ToArray());
-                var message = JsonSerializer.Deserialize<T>(json, Internal.JsonOptions);
-                if (message == null)
+                Uri = new Uri(_config["Messaging:RabbitMq"] ?? "amqp://guest:guest@localhost:5672"),
+                DispatchConsumersAsync = true,
+            };
+            _connection = factory.CreateConnection($"mymo-consumer-{_queue}");
+            _channel = _connection.CreateModel();
+            _channel.QueueDeclare(_queue, durable: true, exclusive: false, autoDelete: false);
+            _channel.BasicQos(0, 1, false);
+
+            var consumer = new AsyncEventingBasicConsumer(_channel);
+            consumer.Received += async (_, args) =>
+            {
+                try
                 {
-                    _channel.BasicNack(args.DeliveryTag, false, false);
-                    return;
+                    var json = Encoding.UTF8.GetString(args.Body.ToArray());
+                    var message = JsonSerializer.Deserialize<T>(json, Internal.JsonOptions);
+                    if (message == null)
+                    {
+                        _channel.BasicNack(args.DeliveryTag, false, false);
+                        return;
+                    }
+
+                    using var scope = _scopes.CreateScope();
+                    await _handler(scope.ServiceProvider, message, stoppingToken);
+                    _channel.BasicAck(args.DeliveryTag, false);
                 }
+                catch (Exception ex)
+                {
+                    _log.LogError(ex, "Failed handling {Queue}", _queue);
+                    _channel?.BasicNack(args.DeliveryTag, false, true);
+                }
+            };
 
-                using var scope = _scopes.CreateScope();
-                await _handler(scope.ServiceProvider, message, stoppingToken);
-                _channel.BasicAck(args.DeliveryTag, false);
-            }
-            catch (Exception ex)
-            {
-                _log.LogError(ex, "Failed handling {Queue}", _queue);
-                _channel?.BasicNack(args.DeliveryTag, false, true);
-            }
-        };
-
-        _channel.BasicConsume(_queue, autoAck: false, consumer);
-        _log.LogInformation("Consuming queue {Queue}", _queue);
-        return Task.Delay(Timeout.Infinite, stoppingToken);
+            _channel.BasicConsume(_queue, autoAck: false, consumer);
+            _log.LogInformation("Consuming queue {Queue}", _queue);
+            return Task.Delay(Timeout.Infinite, stoppingToken);
+        }
+        catch (Exception ex)
+        {
+            _log.LogWarning("RabbitMQ unavailable for {Queue}: {Message}. Continuing without message consumer.", _queue, ex.Message);
+            return Task.CompletedTask;
+        }
     }
 
     public override void Dispose()

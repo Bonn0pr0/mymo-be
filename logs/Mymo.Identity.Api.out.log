@@ -1,0 +1,160 @@
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (30ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Users" AS "u")
+warn: RabbitConsumer<SetUserRoleCommand>[0]
+      RabbitMQ unavailable for identity.commands.set-role: None of the specified endpoints were reachable. Continuing without message consumer.
+warn: RabbitConsumer<SetUserPremiumCommand>[0]
+      RabbitMQ unavailable for identity.commands.set-premium: None of the specified endpoints were reachable. Continuing without message consumer.
+warn: RabbitConsumer<CreateReportCommand>[0]
+      RabbitMQ unavailable for identity.commands.create-report: None of the specified endpoints were reachable. Continuing without message consumer.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://0.0.0.0:5001
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: D:\ASM PRM\BE\mymo-be\src\Mymo.Identity\Mymo.Identity.Api
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT "u"."UserId", "u"."AvatarFrame", "u"."AvatarUrl", "u"."Bio", "u"."CoverUrl", "u"."CreatedAt", "u"."DateOfBirth", "u"."DisplayName", "u"."Email", "u"."FavoritePlacesJson", "u"."Gender", "u"."IsAnonymous", "u"."IsDeleted", "u"."IsLocationSharing", "u"."IsOnline", "u"."IsPremium", "u"."LastActiveAt", "u"."LastSeen", "u"."Latitude", "u"."Longitude", "u"."MapMarker", "u"."PasswordHash", "u"."PhoneNumber", "u"."ProfileTheme", "u"."ProfileTitle", "u"."Role", "u"."Status", "u"."Username"
+      FROM "Users" AS "u"
+      WHERE "u"."UserId" = @__id_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (11ms) [Parameters=[@p2='?' (DbType = Guid), @p0='?' (DbType = DateTime), @p1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      UPDATE "Users" SET "LastActiveAt" = @p0, "LastSeen" = @p1
+      WHERE "UserId" = @p2
+      RETURNING 1;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT "u"."UserId", "u"."AvatarFrame", "u"."AvatarUrl", "u"."Bio", "u"."CoverUrl", "u"."CreatedAt", "u"."DateOfBirth", "u"."DisplayName", "u"."Email", "u"."FavoritePlacesJson", "u"."Gender", "u"."IsAnonymous", "u"."IsDeleted", "u"."IsLocationSharing", "u"."IsOnline", "u"."IsPremium", "u"."LastActiveAt", "u"."LastSeen", "u"."Latitude", "u"."Longitude", "u"."MapMarker", "u"."PasswordHash", "u"."PhoneNumber", "u"."ProfileTheme", "u"."ProfileTitle", "u"."Role", "u"."Status", "u"."Username"
+      FROM "Users" AS "u"
+      WHERE "u"."UserId" = @__id_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p2='?' (DbType = Guid), @p0='?' (DbType = DateTime), @p1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      UPDATE "Users" SET "LastActiveAt" = @p0, "LastSeen" = @p1
+      WHERE "UserId" = @p2
+      RETURNING 1;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT "u"."UserId", "u"."AvatarFrame", "u"."AvatarUrl", "u"."Bio", "u"."CoverUrl", "u"."CreatedAt", "u"."DateOfBirth", "u"."DisplayName", "u"."Email", "u"."FavoritePlacesJson", "u"."Gender", "u"."IsAnonymous", "u"."IsDeleted", "u"."IsLocationSharing", "u"."IsOnline", "u"."IsPremium", "u"."LastActiveAt", "u"."LastSeen", "u"."Latitude", "u"."Longitude", "u"."MapMarker", "u"."PasswordHash", "u"."PhoneNumber", "u"."ProfileTheme", "u"."ProfileTitle", "u"."Role", "u"."Status", "u"."Username"
+      FROM "Users" AS "u"
+      WHERE NOT ("u"."IsDeleted") AND "u"."UserId" <> @__userId_0 AND "u"."IsLocationSharing" AND "u"."Latitude" IS NOT NULL
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT "u"."UserId", "u"."AvatarFrame", "u"."AvatarUrl", "u"."Bio", "u"."CoverUrl", "u"."CreatedAt", "u"."DateOfBirth", "u"."DisplayName", "u"."Email", "u"."FavoritePlacesJson", "u"."Gender", "u"."IsAnonymous", "u"."IsDeleted", "u"."IsLocationSharing", "u"."IsOnline", "u"."IsPremium", "u"."LastActiveAt", "u"."LastSeen", "u"."Latitude", "u"."Longitude", "u"."MapMarker", "u"."PasswordHash", "u"."PhoneNumber", "u"."ProfileTheme", "u"."ProfileTitle", "u"."Role", "u"."Status", "u"."Username"
+      FROM "Users" AS "u"
+      WHERE "u"."UserId" = @__id_0
+      LIMIT 1
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__set_0='?' (Size = 2)], CommandType='Text', CommandTimeout='30']
+      SELECT "u"."UserId", "u"."AvatarFrame", "u"."AvatarUrl", "u"."Bio", "u"."CoverUrl", "u"."CreatedAt", "u"."DateOfBirth", "u"."DisplayName", "u"."Email", "u"."FavoritePlacesJson", "u"."Gender", "u"."IsAnonymous", "u"."IsDeleted", "u"."IsLocationSharing", "u"."IsOnline", "u"."IsPremium", "u"."LastActiveAt", "u"."LastSeen", "u"."Latitude", "u"."Longitude", "u"."MapMarker", "u"."PasswordHash", "u"."PhoneNumber", "u"."ProfileTheme", "u"."ProfileTitle", "u"."Role", "u"."Status", "u"."Username"
+      FROM "Users" AS "u"
+      WHERE "u"."UserId" IN (
+          SELECT "s"."value"
+          FROM json_each(@__set_0) AS "s"
+      )
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__set_0='?' (Size = 2)], CommandType='Text', CommandTimeout='30']
+      SELECT "u"."UserId", "u"."AvatarFrame", "u"."AvatarUrl", "u"."Bio", "u"."CoverUrl", "u"."CreatedAt", "u"."DateOfBirth", "u"."DisplayName", "u"."Email", "u"."FavoritePlacesJson", "u"."Gender", "u"."IsAnonymous", "u"."IsDeleted", "u"."IsLocationSharing", "u"."IsOnline", "u"."IsPremium", "u"."LastActiveAt", "u"."LastSeen", "u"."Latitude", "u"."Longitude", "u"."MapMarker", "u"."PasswordHash", "u"."PhoneNumber", "u"."ProfileTheme", "u"."ProfileTitle", "u"."Role", "u"."Status", "u"."Username"
+      FROM "Users" AS "u"
+      WHERE "u"."UserId" IN (
+          SELECT "s"."value"
+          FROM json_each(@__set_0) AS "s"
+      )
+warn: Microsoft.EntityFrameworkCore.Query[10102]
+      The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 2247.2296ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 2263.0829ms - 200
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@__keyword_0='?' (Size = 1), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+      SELECT "u"."UserId", "u"."AvatarFrame", "u"."AvatarUrl", "u"."Bio", "u"."CoverUrl", "u"."CreatedAt", "u"."DateOfBirth", "u"."DisplayName", "u"."Email", "u"."FavoritePlacesJson", "u"."Gender", "u"."IsAnonymous", "u"."IsDeleted", "u"."IsLocationSharing", "u"."IsOnline", "u"."IsPremium", "u"."LastActiveAt", "u"."LastSeen", "u"."Latitude", "u"."Longitude", "u"."MapMarker", "u"."PasswordHash", "u"."PhoneNumber", "u"."ProfileTheme", "u"."ProfileTitle", "u"."Role", "u"."Status", "u"."Username"
+      FROM "Users" AS "u"
+      WHERE NOT ("u"."IsDeleted") AND (instr(lower("u"."Username"), @__keyword_0) > 0 OR instr(lower("u"."DisplayName"), @__keyword_0) > 0 OR instr("u"."Email", @__keyword_0) > 0)
+      LIMIT @__p_1
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__set_0='?' (Size = 2)], CommandType='Text', CommandTimeout='30']
+      SELECT "u"."UserId", "u"."AvatarFrame", "u"."AvatarUrl", "u"."Bio", "u"."CoverUrl", "u"."CreatedAt", "u"."DateOfBirth", "u"."DisplayName", "u"."Email", "u"."FavoritePlacesJson", "u"."Gender", "u"."IsAnonymous", "u"."IsDeleted", "u"."IsLocationSharing", "u"."IsOnline", "u"."IsPremium", "u"."LastActiveAt", "u"."LastSeen", "u"."Latitude", "u"."Longitude", "u"."MapMarker", "u"."PasswordHash", "u"."PhoneNumber", "u"."ProfileTheme", "u"."ProfileTitle", "u"."Role", "u"."Status", "u"."Username"
+      FROM "Users" AS "u"
+      WHERE "u"."UserId" IN (
+          SELECT "s"."value"
+          FROM json_each(@__set_0) AS "s"
+      )
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__set_0='?' (Size = 2)], CommandType='Text', CommandTimeout='30']
+      SELECT "u"."UserId", "u"."AvatarFrame", "u"."AvatarUrl", "u"."Bio", "u"."CoverUrl", "u"."CreatedAt", "u"."DateOfBirth", "u"."DisplayName", "u"."Email", "u"."FavoritePlacesJson", "u"."Gender", "u"."IsAnonymous", "u"."IsDeleted", "u"."IsLocationSharing", "u"."IsOnline", "u"."IsPremium", "u"."LastActiveAt", "u"."LastSeen", "u"."Latitude", "u"."Longitude", "u"."MapMarker", "u"."PasswordHash", "u"."PhoneNumber", "u"."ProfileTheme", "u"."ProfileTitle", "u"."Role", "u"."Status", "u"."Username"
+      FROM "Users" AS "u"
+      WHERE "u"."UserId" IN (
+          SELECT "s"."value"
+          FROM json_each(@__set_0) AS "s"
+      )
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__set_0='?' (Size = 2)], CommandType='Text', CommandTimeout='30']
+      SELECT "u"."UserId", "u"."AvatarFrame", "u"."AvatarUrl", "u"."Bio", "u"."CoverUrl", "u"."CreatedAt", "u"."DateOfBirth", "u"."DisplayName", "u"."Email", "u"."FavoritePlacesJson", "u"."Gender", "u"."IsAnonymous", "u"."IsDeleted", "u"."IsLocationSharing", "u"."IsOnline", "u"."IsPremium", "u"."LastActiveAt", "u"."LastSeen", "u"."Latitude", "u"."Longitude", "u"."MapMarker", "u"."PasswordHash", "u"."PhoneNumber", "u"."ProfileTheme", "u"."ProfileTitle", "u"."Role", "u"."Status", "u"."Username"
+      FROM "Users" AS "u"
+      WHERE "u"."UserId" IN (
+          SELECT "s"."value"
+          FROM json_each(@__set_0) AS "s"
+      )
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 2126.4502ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 2126.5993ms - 200
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT "u"."UserId", "u"."AvatarFrame", "u"."AvatarUrl", "u"."Bio", "u"."CoverUrl", "u"."CreatedAt", "u"."DateOfBirth", "u"."DisplayName", "u"."Email", "u"."FavoritePlacesJson", "u"."Gender", "u"."IsAnonymous", "u"."IsDeleted", "u"."IsLocationSharing", "u"."IsOnline", "u"."IsPremium", "u"."LastActiveAt", "u"."LastSeen", "u"."Latitude", "u"."Longitude", "u"."MapMarker", "u"."PasswordHash", "u"."PhoneNumber", "u"."ProfileTheme", "u"."ProfileTitle", "u"."Role", "u"."Status", "u"."Username"
+      FROM "Users" AS "u"
+      WHERE "u"."UserId" = @__id_0
+      LIMIT 1
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 8.6714ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 8.8631ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 11.8149ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 11.9575ms - 200
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__set_0='?' (Size = 2)], CommandType='Text', CommandTimeout='30']
+      SELECT "u"."UserId", "u"."AvatarFrame", "u"."AvatarUrl", "u"."Bio", "u"."CoverUrl", "u"."CreatedAt", "u"."DateOfBirth", "u"."DisplayName", "u"."Email", "u"."FavoritePlacesJson", "u"."Gender", "u"."IsAnonymous", "u"."IsDeleted", "u"."IsLocationSharing", "u"."IsOnline", "u"."IsPremium", "u"."LastActiveAt", "u"."LastSeen", "u"."Latitude", "u"."Longitude", "u"."MapMarker", "u"."PasswordHash", "u"."PhoneNumber", "u"."ProfileTheme", "u"."ProfileTitle", "u"."Role", "u"."Status", "u"."Username"
+      FROM "Users" AS "u"
+      WHERE "u"."UserId" IN (
+          SELECT "s"."value"
+          FROM json_each(@__set_0) AS "s"
+      )
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT "u"."UserId", "u"."AvatarFrame", "u"."AvatarUrl", "u"."Bio", "u"."CoverUrl", "u"."CreatedAt", "u"."DateOfBirth", "u"."DisplayName", "u"."Email", "u"."FavoritePlacesJson", "u"."Gender", "u"."IsAnonymous", "u"."IsDeleted", "u"."IsLocationSharing", "u"."IsOnline", "u"."IsPremium", "u"."LastActiveAt", "u"."LastSeen", "u"."Latitude", "u"."Longitude", "u"."MapMarker", "u"."PasswordHash", "u"."PhoneNumber", "u"."ProfileTheme", "u"."ProfileTitle", "u"."Role", "u"."Status", "u"."Username"
+      FROM "Users" AS "u"
+      WHERE "u"."UserId" = @__id_0
+      LIMIT 1
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (0ms) [Parameters=[@p2='?' (DbType = Guid), @p0='?' (DbType = DateTime), @p1='?' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      UPDATE "Users" SET "LastActiveAt" = @p0, "LastSeen" = @p1
+      WHERE "UserId" = @p2
+      RETURNING 1;

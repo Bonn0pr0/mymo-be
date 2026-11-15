@@ -6,7 +6,7 @@ using Mymo.Shared;
 using Mymo.Shared.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
-MymoService.Add(builder.Services, builder.Configuration);
+MymoService.Add(builder.Services, builder.Configuration, "Mymo Identity API");
 builder.Services.AddIdentityDal(builder.Configuration);
 builder.Services.AddIdentityBll();
 builder.Services.AddRabbitConsumer<SetUserRoleCommand>(Queues.SetUserRole, async (sp, cmd, _) =>
@@ -17,7 +17,7 @@ builder.Services.AddRabbitConsumer<CreateReportCommand>(Queues.CreateReport, asy
     await sp.GetRequiredService<AdminService>().CreateReport(cmd));
 
 var app = builder.Build();
-MymoService.Use(app);
+MymoService.Use(app, "Mymo Identity API");
 IdentityEndpoints.Map(app);
 
 using (var scope = app.Services.CreateScope())

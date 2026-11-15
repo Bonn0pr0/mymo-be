@@ -37,47 +37,54 @@ public sealed class KafkaConsumerHostedService<T> : BackgroundService
         // Consume blocks while the topic is idle. Let the web host finish starting first.
         await Task.Yield();
 
-        var bootstrap = _config["Messaging:Kafka"] ?? "localhost:9092";
-        using var consumer = new ConsumerBuilder<Ignore, string>(new ConsumerConfig
+        try
         {
-            BootstrapServers = bootstrap,
-            GroupId = _groupId,
-            AutoOffsetReset = AutoOffsetReset.Earliest,
-            EnableAutoCommit = false,
-        }).Build();
+            var bootstrap = _config["Messaging:Kafka"] ?? "localhost:9092";
+            using var consumer = new ConsumerBuilder<Ignore, string>(new ConsumerConfig
+            {
+                BootstrapServers = bootstrap,
+                GroupId = _groupId,
+                AutoOffsetReset = AutoOffsetReset.Earliest,
+                EnableAutoCommit = false,
+            }).Build();
 
-        consumer.Subscribe(_topic);
-        _log.LogInformation("Consuming topic {Topic} as {Group}", _topic, _groupId);
+            consumer.Subscribe(_topic);
+            _log.LogInformation("Consuming topic {Topic} as {Group}", _topic, _groupId);
 
-        while (!stoppingToken.IsCancellationRequested)
-        {
-            try
+            while (!stoppingToken.IsCancellationRequested)
             {
-                var result = consumer.Consume(stoppingToken);
-                if (result?.Message?.Value == null) continue;
-                var message = JsonSerializer.Deserialize<T>(result.Message.Value, Internal.JsonOptions);
-                if (message == null) continue;
+                try
+                {
+                    var result = consumer.Consume(stoppingToken);
+                    if (result?.Message?.Value == null) continue;
+                    var message = JsonSerializer.Deserialize<T>(result.Message.Value, Internal.JsonOptions);
+                    if (message == null) continue;
 
-                using var scope = _scopes.CreateScope();
-                await _handler(scope.ServiceProvider, message, stoppingToken);
-                consumer.Commit(result);
+                    using var scope = _scopes.CreateScope();
+                    await _handler(scope.ServiceProvider, message, stoppingToken);
+                    consumer.Commit(result);
+                }
+                catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+                {
+                    break;
+                }
+                catch (ConsumeException ex)
+                {
+                    _log.LogError(ex, "Kafka consume error on {Topic}", _topic);
+                    await Task.Delay(1000, stoppingToken);
+                }
+                catch (Exception ex)
+                {
+                    _log.LogError(ex, "Failed handling Kafka {Topic}", _topic);
+                    await Task.Delay(1000, stoppingToken);
+                }
             }
-            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
-            {
-                break;
-            }
-            catch (ConsumeException ex)
-            {
-                _log.LogError(ex, "Kafka consume error on {Topic}", _topic);
-                await Task.Delay(1000, stoppingToken);
-            }
-            catch (Exception ex)
-            {
-                _log.LogError(ex, "Failed handling Kafka {Topic}", _topic);
-                await Task.Delay(1000, stoppingToken);
-            }
+
+            consumer.Close();
         }
-
-        consumer.Close();
+        catch (Exception ex)
+        {
+            _log.LogWarning("Kafka unavailable for topic {Topic}: {Message}. Continuing without Kafka consumer.", _topic, ex.Message);
+        }
     }
 }

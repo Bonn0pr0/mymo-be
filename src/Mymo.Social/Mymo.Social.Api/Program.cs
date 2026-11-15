@@ -6,7 +6,7 @@ using Mymo.Social.Dal;
 using Mymo.Social.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-MymoService.Add(builder.Services, builder.Configuration);
+MymoService.Add(builder.Services, builder.Configuration, "Mymo Social API");
 builder.Services.AddSocialDal(builder.Configuration);
 builder.Services.AddSocialBll();
 
@@ -18,7 +18,7 @@ app.UseStaticFiles(new StaticFileOptions
     FileProvider = new PhysicalFileProvider(uploads),
     RequestPath = "/uploads",
 });
-MymoService.Use(app);
+MymoService.Use(app, "Mymo Social API");
 SocialEndpoints.Map(app);
 
 using (var scope = app.Services.CreateScope())

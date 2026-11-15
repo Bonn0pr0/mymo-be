@@ -14,7 +14,7 @@ public class IdentityRepository : IIdentityRepository
     public Task<AppUser?> FindUser(Guid id) => _db.Users.FirstOrDefaultAsync(u => u.UserId == id);
 
     public Task<AppUser?> FindActiveByEmail(string email) =>
-        _db.Users.FirstOrDefaultAsync(u => u.Email == email && !u.IsDeleted);
+        _db.Users.FirstOrDefaultAsync(u => (u.Email == email || u.Username == email) && !u.IsDeleted);
 
     public Task<AppUser?> FindByEmail(string email) =>
         _db.Users.FirstOrDefaultAsync(u => u.Email == email);

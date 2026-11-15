@@ -7,7 +7,7 @@ using Mymo.Shared;
 using Mymo.Shared.Messaging;
 
 var builder = WebApplication.CreateBuilder(args);
-MymoService.Add(builder.Services, builder.Configuration);
+MymoService.Add(builder.Services, builder.Configuration, "Mymo Map API");
 builder.Services.AddSignalR();
 builder.Services.AddMapDal(builder.Configuration);
 builder.Services.AddMapBll();
@@ -18,7 +18,7 @@ builder.Services.AddKafkaConsumer<PostCreatedEvent>(Topics.PostCreated, "mymo-ma
     await sp.GetRequiredService<MapService>().BroadcastPost(evt));
 
 var app = builder.Build();
-MymoService.Use(app);
+MymoService.Use(app, "Mymo Map API");
 MapEndpoints.Map(app);
 app.MapHub<MapHub>("/hubs/map");
 
