@@ -396,6 +396,15 @@ public class PostService
         return ServiceResult.Ok(ApiResponse<object>.Ok(list));
     }
 
+    public ServiceResult Hana(JsonElement body)
+    {
+        var message = JsonBody.Text(body, "message") ?? "";
+        var reply = string.IsNullOrWhiteSpace(message)
+            ? "Mình là Hana. Bạn muốn tìm quán hay xem bạn bè đang ở đâu?"
+            : $"Mình là Hana. Mình nghe bạn nói: \"{message}\". Thử mở bản đồ quanh Nguyễn Huệ, có vài quán đã được ghim sẵn.";
+        return ServiceResult.Ok(ApiResponse<object>.Ok(new { reply }));
+    }
+
     public async Task<ServiceResult> Activity(Guid id)
     {
         var posts = await _data.PostsByUserRaw(id);
