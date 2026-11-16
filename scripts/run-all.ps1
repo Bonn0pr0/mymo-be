@@ -6,6 +6,16 @@ if (-not (Test-Path $logDir)) {
     New-Item -ItemType Directory -Path $logDir -Force | Out-Null
 }
 
+# Load environment variables from .env if present
+$envFile = Join-Path $baseDir ".env"
+if (Test-Path $envFile) {
+    Get-Content $envFile | Where-Object { $_ -match '^\s*([^#=]+)\s*=\s*(.*)$' } | ForEach-Object {
+        $k = $matches[1].Trim()
+        $v = $matches[2].Trim()
+        [System.Environment]::SetEnvironmentVariable($k, $v, "Process")
+    }
+}
+
 $services = @(
     @{ Name = "Mymo.Identity.Api"; Port = 5001; Path = "src\Mymo.Identity\Mymo.Identity.Api" },
     @{ Name = "Mymo.Social.Api";   Port = 5002; Path = "src\Mymo.Social\Mymo.Social.Api" },

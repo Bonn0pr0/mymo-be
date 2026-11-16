@@ -22,7 +22,14 @@ IdentityEndpoints.Map(app);
 
 using (var scope = app.Services.CreateScope())
 {
-    await IdentitySeed.Run(scope.ServiceProvider.GetRequiredService<IdentityDbContext>());
+    try
+    {
+        await IdentitySeed.Run(scope.ServiceProvider.GetRequiredService<IdentityDbContext>());
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogWarning("Database seed skipped or failed on startup: {Message}", ex.Message);
+    }
 }
 
 app.Run();

@@ -15,7 +15,14 @@ BusinessEndpoints.Map(app);
 
 using (var scope = app.Services.CreateScope())
 {
-    await BusinessSeed.Run(scope.ServiceProvider.GetRequiredService<BusinessDbContext>());
+    try
+    {
+        await BusinessSeed.Run(scope.ServiceProvider.GetRequiredService<BusinessDbContext>());
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogWarning("Database seed skipped or failed on startup: {Message}", ex.Message);
+    }
 }
 
 app.Run();

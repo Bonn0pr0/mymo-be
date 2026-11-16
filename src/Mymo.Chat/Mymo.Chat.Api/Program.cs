@@ -19,7 +19,14 @@ app.MapHub<ChatHub>("/hubs/chat");
 
 using (var scope = app.Services.CreateScope())
 {
-    await ChatSeed.Run(scope.ServiceProvider.GetRequiredService<ChatDbContext>());
+    try
+    {
+        await ChatSeed.Run(scope.ServiceProvider.GetRequiredService<ChatDbContext>());
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogWarning("Database seed skipped or failed on startup: {Message}", ex.Message);
+    }
 }
 
 app.Run();

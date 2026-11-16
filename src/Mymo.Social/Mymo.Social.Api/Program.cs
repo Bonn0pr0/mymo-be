@@ -23,7 +23,14 @@ SocialEndpoints.Map(app);
 
 using (var scope = app.Services.CreateScope())
 {
-    await SocialSeed.Run(scope.ServiceProvider.GetRequiredService<SocialDbContext>());
+    try
+    {
+        await SocialSeed.Run(scope.ServiceProvider.GetRequiredService<SocialDbContext>());
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogWarning("Database seed skipped or failed on startup: {Message}", ex.Message);
+    }
 }
 
 app.Run();

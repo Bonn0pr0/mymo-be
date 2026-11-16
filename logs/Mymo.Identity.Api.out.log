@@ -1,11 +1,31 @@
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (15ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+      Executed DbCommand (22ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT 1
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      SELECT EXISTS (
-          SELECT 1
-          FROM "Users" AS "u")
+      Executed DbCommand (43ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      
+      IF EXISTS
+          (SELECT *
+           FROM [sys].[objects] o
+           WHERE [o].[type] = 'U'
+           AND [o].[is_ms_shipped] = 0
+           AND NOT EXISTS (SELECT *
+               FROM [sys].[extended_properties] AS [ep]
+               WHERE [ep].[major_id] = [o].[object_id]
+                   AND [ep].[minor_id] = 0
+                   AND [ep].[class] = 1
+                   AND [ep].[name] = N'microsoft_database_tools_support'
+          )
+      )
+      SELECT 1 ELSE SELECT 0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (13ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT CASE
+          WHEN EXISTS (
+              SELECT 1
+              FROM [Users] AS [u]) THEN CAST(1 AS bit)
+          ELSE CAST(0 AS bit)
+      END
 warn: RabbitConsumer<SetUserRoleCommand>[0]
       RabbitMQ unavailable for identity.commands.set-role: None of the specified endpoints were reachable. Continuing without message consumer.
 warn: RabbitConsumer<SetUserPremiumCommand>[0]
@@ -20,3 +40,596 @@ info: Microsoft.Hosting.Lifetime[0]
       Hosting environment: Production
 info: Microsoft.Hosting.Lifetime[0]
       Content root path: D:\ASM PRM\BE\mymo-be\src\Mymo.Identity\Mymo.Identity.Api
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (170ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (7ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 2406.7911ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 2443.5595ms - 200
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 1283.3718ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 1283.687ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+fail: Microsoft.AspNetCore.Server.Kestrel[13]
+      Connection id "0HNQ3NV2T9UQP", Request id "0HNQ3NV2T9UQP:00000001": An unhandled exception was thrown by the application.
+      System.InvalidOperationException: The type 'System.Threading.ExecutionContext&' of property 'Context' on type 'System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1[Microsoft.AspNetCore.Http.IResult,Mymo.Identity.IdentityEndpoints+<Gate>d__1]' is invalid for serialization or deserialization because it is a pointer type, is a ref struct, or contains generic parameters that have not been replaced by specific types.
+         at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_CannotSerializeInvalidType(Type typeToConvert, Type declaringType, MemberInfo memberInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreatePropertyInfo(JsonTypeInfo typeInfo, Type typeToConvert, MemberInfo memberInfo, JsonSerializerOptions options, Boolean shouldCheckForRequiredKeyword, Boolean hasJsonIncludeAttribute)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.AddMembersDeclaredBySuperType(JsonTypeInfo typeInfo, Type currentType, Boolean constructorHasSetsRequiredMembersAttribute, PropertyHierarchyResolutionState& state)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.PopulateProperties(JsonTypeInfo typeInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreateTypeInfoCore(Type type, JsonConverter converter, JsonSerializerOptions options)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.GetTypeInfo(Type type, JsonSerializerOptions options)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoNoCaching(Type type)
+         at System.Text.Json.JsonSerializerOptions.CachingContext.CreateCacheEntry(Type type, CachingContext context)
+      --- End of stack trace from previous location ---
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoInternal(Type type, Boolean ensureConfigured, Nullable`1 ensureNotNull, Boolean resolveIfMutable, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoForRootType(Type type, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.TryGetPolymorphicTypeInfoForRootType(Object rootValue, JsonTypeInfo& polymorphicTypeInfo)
+         at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.SerializeAsync(Stream utf8Json, T rootValue, CancellationToken cancellationToken, Object rootValueBoxed)
+         at Microsoft.AspNetCore.Http.HttpResponseJsonExtensions.WriteAsJsonAsyncSlow[TValue](Stream body, TValue value, JsonSerializerOptions options, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (13ms) [Parameters=[@p1='?' (DbType = Guid), @p0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      UPDATE [Users] SET [LastActiveAt] = @p0
+      OUTPUT 1
+      WHERE [UserId] = @p1;
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 2268.2682ms - 500
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 2269.6899ms - 500
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 2279.0385ms - 500
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 2279.3931ms - 500
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 52.6188ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 53.0707ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 45.8001ms - 500
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 46.6682ms - 500
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 51.805ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 52.5355ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 12.3279ms - 500
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 12.7506ms - 500
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 16.6678ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 16.9537ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 12.3801ms - 500
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 12.6161ms - 500
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 19.3581ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 19.5286ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 12.6313ms - 500
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 12.7757ms - 500
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (49ms) [Parameters=[@__email_0='?' (Size = 450)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE ([u].[Email] = @__email_0 OR [u].[Username] = @__email_0) AND [u].[IsDeleted] = CAST(0 AS bit)
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (26ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (Size = 450), @p3='?' (DbType = Guid), @p5='?' (DbType = Guid), @p4='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SET NOCOUNT ON;
+      INSERT INTO [Sessions] ([SessionId], [ExpiresAt], [RefreshToken], [UserId])
+      VALUES (@p0, @p1, @p2, @p3);
+      UPDATE [Users] SET [LastActiveAt] = @p4
+      OUTPUT 1
+      WHERE [UserId] = @p5;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (16ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (76ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (42ms) [Parameters=[@p1='?' (DbType = Guid), @p0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      UPDATE [Users] SET [LastActiveAt] = @p0
+      OUTPUT 1
+      WHERE [UserId] = @p1;
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 151.2255ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 151.4128ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 11.0862ms - 500
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 11.8361ms - 500
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 26.1752ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 26.3644ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 11.1777ms - 500
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 11.3445ms - 500
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+fail: Microsoft.AspNetCore.Server.Kestrel[13]
+      Connection id "0HNQ3NV2T9UQP", Request id "0HNQ3NV2T9UQP:00000002": An unhandled exception was thrown by the application.
+      System.InvalidOperationException: The type 'System.Threading.ExecutionContext&' of property 'Context' on type 'System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1[Microsoft.AspNetCore.Http.IResult,Mymo.Identity.IdentityEndpoints+<Gate>d__1]' is invalid for serialization or deserialization because it is a pointer type, is a ref struct, or contains generic parameters that have not been replaced by specific types.
+         at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_CannotSerializeInvalidType(Type typeToConvert, Type declaringType, MemberInfo memberInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreatePropertyInfo(JsonTypeInfo typeInfo, Type typeToConvert, MemberInfo memberInfo, JsonSerializerOptions options, Boolean shouldCheckForRequiredKeyword, Boolean hasJsonIncludeAttribute)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.AddMembersDeclaredBySuperType(JsonTypeInfo typeInfo, Type currentType, Boolean constructorHasSetsRequiredMembersAttribute, PropertyHierarchyResolutionState& state)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.PopulateProperties(JsonTypeInfo typeInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreateTypeInfoCore(Type type, JsonConverter converter, JsonSerializerOptions options)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.GetTypeInfo(Type type, JsonSerializerOptions options)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoNoCaching(Type type)
+         at System.Text.Json.JsonSerializerOptions.CachingContext.CreateCacheEntry(Type type, CachingContext context)
+      --- End of stack trace from previous location ---
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoInternal(Type type, Boolean ensureConfigured, Nullable`1 ensureNotNull, Boolean resolveIfMutable, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoForRootType(Type type, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.TryGetPolymorphicTypeInfoForRootType(Object rootValue, JsonTypeInfo& polymorphicTypeInfo)
+         at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.SerializeAsync(Stream utf8Json, T rootValue, CancellationToken cancellationToken, Object rootValueBoxed)
+         at Microsoft.AspNetCore.Http.HttpResponseJsonExtensions.WriteAsJsonAsyncSlow[TValue](Stream body, TValue value, JsonSerializerOptions options, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+      Failed executing DbCommand (23ms) [Parameters=[@p3='?' (DbType = Guid), @p0='?' (DbType = Boolean), @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      UPDATE [Users] SET [IsOnline] = @p0, [LastActiveAt] = @p1, [LastSeen] = @p2
+      OUTPUT 1
+      WHERE [UserId] = @p3;
+fail: Microsoft.AspNetCore.Server.Kestrel[13]
+      Connection id "0HNQ3NV2T9UQS", Request id "0HNQ3NV2T9UQS:00000001": An unhandled exception was thrown by the application.
+      System.InvalidOperationException: The type 'System.Threading.ExecutionContext&' of property 'Context' on type 'System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1[Microsoft.AspNetCore.Http.IResult,Mymo.Identity.IdentityEndpoints+<Gate>d__1]' is invalid for serialization or deserialization because it is a pointer type, is a ref struct, or contains generic parameters that have not been replaced by specific types.
+         at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_CannotSerializeInvalidType(Type typeToConvert, Type declaringType, MemberInfo memberInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreatePropertyInfo(JsonTypeInfo typeInfo, Type typeToConvert, MemberInfo memberInfo, JsonSerializerOptions options, Boolean shouldCheckForRequiredKeyword, Boolean hasJsonIncludeAttribute)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.AddMembersDeclaredBySuperType(JsonTypeInfo typeInfo, Type currentType, Boolean constructorHasSetsRequiredMembersAttribute, PropertyHierarchyResolutionState& state)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.PopulateProperties(JsonTypeInfo typeInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreateTypeInfoCore(Type type, JsonConverter converter, JsonSerializerOptions options)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.GetTypeInfo(Type type, JsonSerializerOptions options)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoNoCaching(Type type)
+         at System.Text.Json.JsonSerializerOptions.CachingContext.CreateCacheEntry(Type type, CachingContext context)
+      --- End of stack trace from previous location ---
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoInternal(Type type, Boolean ensureConfigured, Nullable`1 ensureNotNull, Boolean resolveIfMutable, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoForRootType(Type type, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.SerializeAsync(Stream utf8Json, T rootValue, CancellationToken cancellationToken, Object rootValueBoxed)
+         at Microsoft.AspNetCore.Http.HttpResponseJsonExtensions.WriteAsJsonAsyncSlow[TValue](Stream body, TValue value, JsonSerializerOptions options, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Http.HttpResponseJsonExtensions.WriteAsJsonAsyncSlow[TValue](Stream body, TValue value, JsonSerializerOptions options, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+fail: Microsoft.AspNetCore.Server.Kestrel[13]
+      Connection id "0HNQ3NV2T9UQR", Request id "0HNQ3NV2T9UQR:00000001": An unhandled exception was thrown by the application.
+      System.InvalidOperationException: The type 'System.Threading.ExecutionContext&' of property 'Context' on type 'System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1[Microsoft.AspNetCore.Http.IResult,Mymo.Identity.IdentityEndpoints+<Gate>d__1]' is invalid for serialization or deserialization because it is a pointer type, is a ref struct, or contains generic parameters that have not been replaced by specific types.
+         at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_CannotSerializeInvalidType(Type typeToConvert, Type declaringType, MemberInfo memberInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreatePropertyInfo(JsonTypeInfo typeInfo, Type typeToConvert, MemberInfo memberInfo, JsonSerializerOptions options, Boolean shouldCheckForRequiredKeyword, Boolean hasJsonIncludeAttribute)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.AddMembersDeclaredBySuperType(JsonTypeInfo typeInfo, Type currentType, Boolean constructorHasSetsRequiredMembersAttribute, PropertyHierarchyResolutionState& state)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.PopulateProperties(JsonTypeInfo typeInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreateTypeInfoCore(Type type, JsonConverter converter, JsonSerializerOptions options)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.GetTypeInfo(Type type, JsonSerializerOptions options)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoNoCaching(Type type)
+         at System.Text.Json.JsonSerializerOptions.CachingContext.CreateCacheEntry(Type type, CachingContext context)
+      --- End of stack trace from previous location ---
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoInternal(Type type, Boolean ensureConfigured, Nullable`1 ensureNotNull, Boolean resolveIfMutable, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoForRootType(Type type, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.SerializeAsync(Stream utf8Json, T rootValue, CancellationToken cancellationToken, Object rootValueBoxed)
+         at Microsoft.AspNetCore.Http.HttpResponseJsonExtensions.WriteAsJsonAsyncSlow[TValue](Stream body, TValue value, JsonSerializerOptions options, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Http.HttpResponseJsonExtensions.WriteAsJsonAsyncSlow[TValue](Stream body, TValue value, JsonSerializerOptions options, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+fail: Microsoft.EntityFrameworkCore.Database.Connection[20004]
+      An error occurred using the connection to database 'mymo_identity' on server '.'.
+fail: Microsoft.EntityFrameworkCore.Database.Connection[20004]
+      An error occurred using the connection to database 'mymo_identity' on server '.'.
+fail: Microsoft.AspNetCore.Server.Kestrel[13]
+      Connection id "0HNQ3NV2T9UQR", Request id "0HNQ3NV2T9UQR:00000002": An unhandled exception was thrown by the application.
+      System.InvalidOperationException: The type 'System.Threading.ExecutionContext&' of property 'Context' on type 'System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1[Microsoft.AspNetCore.Http.IResult,Mymo.Identity.IdentityEndpoints+<Gate>d__1]' is invalid for serialization or deserialization because it is a pointer type, is a ref struct, or contains generic parameters that have not been replaced by specific types.
+         at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_CannotSerializeInvalidType(Type typeToConvert, Type declaringType, MemberInfo memberInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreatePropertyInfo(JsonTypeInfo typeInfo, Type typeToConvert, MemberInfo memberInfo, JsonSerializerOptions options, Boolean shouldCheckForRequiredKeyword, Boolean hasJsonIncludeAttribute)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.AddMembersDeclaredBySuperType(JsonTypeInfo typeInfo, Type currentType, Boolean constructorHasSetsRequiredMembersAttribute, PropertyHierarchyResolutionState& state)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.PopulateProperties(JsonTypeInfo typeInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreateTypeInfoCore(Type type, JsonConverter converter, JsonSerializerOptions options)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.GetTypeInfo(Type type, JsonSerializerOptions options)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoNoCaching(Type type)
+         at System.Text.Json.JsonSerializerOptions.CachingContext.CreateCacheEntry(Type type, CachingContext context)
+      --- End of stack trace from previous location ---
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoInternal(Type type, Boolean ensureConfigured, Nullable`1 ensureNotNull, Boolean resolveIfMutable, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoForRootType(Type type, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.TryGetPolymorphicTypeInfoForRootType(Object rootValue, JsonTypeInfo& polymorphicTypeInfo)
+         at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.SerializeAsync(Stream utf8Json, T rootValue, CancellationToken cancellationToken, Object rootValueBoxed)
+         at Microsoft.AspNetCore.Http.HttpResponseJsonExtensions.WriteAsJsonAsyncSlow[TValue](Stream body, TValue value, JsonSerializerOptions options, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+      Failed executing DbCommand (6ms) [Parameters=[@__set_0='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] IN (
+          SELECT [s].[value]
+          FROM OPENJSON(@__set_0) WITH ([value] uniqueidentifier '$') AS [s]
+      )
+fail: Microsoft.EntityFrameworkCore.Query[10100]
+      An exception occurred while iterating over the results of a query for context type 'Mymo.Identity.Data.IdentityDbContext'.
+      System.InvalidOperationException: Invalid operation. The connection is closed.
+         at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+         at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+         at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+      --- End of stack trace from previous location ---
+         at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+         at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+      --- End of stack trace from previous location ---
+         at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+      System.InvalidOperationException: Invalid operation. The connection is closed.
+         at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+         at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+         at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+      --- End of stack trace from previous location ---
+         at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+         at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+      --- End of stack trace from previous location ---
+         at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+warn: Microsoft.EntityFrameworkCore.Query[10102]
+      The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+fail: Microsoft.AspNetCore.Server.Kestrel[13]
+      Connection id "0HNQ3NV2T9UQR", Request id "0HNQ3NV2T9UQR:00000003": An unhandled exception was thrown by the application.
+      System.InvalidOperationException: The type 'System.Threading.ExecutionContext&' of property 'Context' on type 'System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1[Microsoft.AspNetCore.Http.IResult,Mymo.Identity.IdentityEndpoints+<Gate>d__1]' is invalid for serialization or deserialization because it is a pointer type, is a ref struct, or contains generic parameters that have not been replaced by specific types.
+         at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_CannotSerializeInvalidType(Type typeToConvert, Type declaringType, MemberInfo memberInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreatePropertyInfo(JsonTypeInfo typeInfo, Type typeToConvert, MemberInfo memberInfo, JsonSerializerOptions options, Boolean shouldCheckForRequiredKeyword, Boolean hasJsonIncludeAttribute)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.AddMembersDeclaredBySuperType(JsonTypeInfo typeInfo, Type currentType, Boolean constructorHasSetsRequiredMembersAttribute, PropertyHierarchyResolutionState& state)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.PopulateProperties(JsonTypeInfo typeInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreateTypeInfoCore(Type type, JsonConverter converter, JsonSerializerOptions options)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.GetTypeInfo(Type type, JsonSerializerOptions options)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoNoCaching(Type type)
+         at System.Text.Json.JsonSerializerOptions.CachingContext.CreateCacheEntry(Type type, CachingContext context)
+      --- End of stack trace from previous location ---
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoInternal(Type type, Boolean ensureConfigured, Nullable`1 ensureNotNull, Boolean resolveIfMutable, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoForRootType(Type type, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.TryGetPolymorphicTypeInfoForRootType(Object rootValue, JsonTypeInfo& polymorphicTypeInfo)
+         at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.SerializeAsync(Stream utf8Json, T rootValue, CancellationToken cancellationToken, Object rootValueBoxed)
+         at Microsoft.AspNetCore.Http.HttpResponseJsonExtensions.WriteAsJsonAsyncSlow[TValue](Stream body, TValue value, JsonSerializerOptions options, CancellationToken cancellationToken)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+fail: Microsoft.EntityFrameworkCore.Database.Connection[20004]
+      An error occurred using the connection to database 'mymo_identity' on server '.'.
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (6ms) [Parameters=[@p3='?' (DbType = Guid), @p0='?' (DbType = DateTime2), @p1='?' (DbType = Double), @p2='?' (DbType = Double)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      UPDATE [Users] SET [LastActiveAt] = @p0, [Latitude] = @p1, [Longitude] = @p2
+      OUTPUT 1
+      WHERE [UserId] = @p3;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5002/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 21.974ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 22.2172ms - 200
+info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
+      Start processing HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: System.Net.Http.HttpClient.internal.ClientHandler[100]
+      Sending HTTP request GET http://localhost:5003/internal/users/22222222-2222-2222-2222-222222222222/activity
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (5ms) [Parameters=[@p1='?' (DbType = Guid), @p0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      UPDATE [Users] SET [LastActiveAt] = @p0
+      OUTPUT 1
+      WHERE [UserId] = @p1;
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (2ms) [Parameters=[@__id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] = @__id_0
+info: System.Net.Http.HttpClient.internal.ClientHandler[101]
+      Received HTTP response headers after 15.0366ms - 500
+info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
+      End processing HTTP request after 15.1928ms - 500
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (4ms) [Parameters=[@p1='?' (DbType = Guid), @p0='?' (DbType = DateTime2)], CommandType='Text', CommandTimeout='30']
+      SET IMPLICIT_TRANSACTIONS OFF;
+      SET NOCOUNT ON;
+      UPDATE [Users] SET [LastActiveAt] = @p0
+      OUTPUT 1
+      WHERE [UserId] = @p1;
+fail: Microsoft.AspNetCore.Server.Kestrel[13]
+      Connection id "0HNQ3NV2T9UQR", Request id "0HNQ3NV2T9UQR:00000004": An unhandled exception was thrown by the application.
+      System.InvalidOperationException: The type 'System.Threading.ExecutionContext&' of property 'Context' on type 'System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1[Microsoft.AspNetCore.Http.IResult,Mymo.Identity.IdentityEndpoints+<Gate>d__1]' is invalid for serialization or deserialization because it is a pointer type, is a ref struct, or contains generic parameters that have not been replaced by specific types.
+         at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_CannotSerializeInvalidType(Type typeToConvert, Type declaringType, MemberInfo memberInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreatePropertyInfo(JsonTypeInfo typeInfo, Type typeToConvert, MemberInfo memberInfo, JsonSerializerOptions options, Boolean shouldCheckForRequiredKeyword, Boolean hasJsonIncludeAttribute)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.AddMembersDeclaredBySuperType(JsonTypeInfo typeInfo, Type currentType, Boolean constructorHasSetsRequiredMembersAttribute, PropertyHierarchyResolutionState& state)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.PopulateProperties(JsonTypeInfo typeInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreateTypeInfoCore(Type type, JsonConverter converter, JsonSerializerOptions options)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.GetTypeInfo(Type type, JsonSerializerOptions options)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoNoCaching(Type type)
+         at System.Text.Json.JsonSerializerOptions.CachingContext.CreateCacheEntry(Type type, CachingContext context)
+      --- End of stack trace from previous location ---
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoInternal(Type type, Boolean ensureConfigured, Nullable`1 ensureNotNull, Boolean resolveIfMutable, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoForRootType(Type type, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.TryGetPolymorphicTypeInfoForRootType(Object rootValue, JsonTypeInfo& polymorphicTypeInfo)
+         at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.SerializeAsync(Stream utf8Json, T rootValue, CancellationToken cancellationToken, Object rootValueBoxed)
+         at Microsoft.AspNetCore.Http.HttpResponseJsonExtensions.WriteAsJsonAsyncSlow[TValue](Stream body, TValue value, JsonSerializerOptions options, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+fail: Microsoft.AspNetCore.Server.Kestrel[13]
+      Connection id "0HNQ3NV2T9UQR", Request id "0HNQ3NV2T9UQR:00000005": An unhandled exception was thrown by the application.
+      System.InvalidOperationException: The type 'System.Threading.ExecutionContext&' of property 'Context' on type 'System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1[Microsoft.AspNetCore.Http.IResult,Mymo.Identity.IdentityEndpoints+<Gate>d__1]' is invalid for serialization or deserialization because it is a pointer type, is a ref struct, or contains generic parameters that have not been replaced by specific types.
+         at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_CannotSerializeInvalidType(Type typeToConvert, Type declaringType, MemberInfo memberInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreatePropertyInfo(JsonTypeInfo typeInfo, Type typeToConvert, MemberInfo memberInfo, JsonSerializerOptions options, Boolean shouldCheckForRequiredKeyword, Boolean hasJsonIncludeAttribute)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.AddMembersDeclaredBySuperType(JsonTypeInfo typeInfo, Type currentType, Boolean constructorHasSetsRequiredMembersAttribute, PropertyHierarchyResolutionState& state)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.PopulateProperties(JsonTypeInfo typeInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreateTypeInfoCore(Type type, JsonConverter converter, JsonSerializerOptions options)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.GetTypeInfo(Type type, JsonSerializerOptions options)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoNoCaching(Type type)
+         at System.Text.Json.JsonSerializerOptions.CachingContext.CreateCacheEntry(Type type, CachingContext context)
+      --- End of stack trace from previous location ---
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoInternal(Type type, Boolean ensureConfigured, Nullable`1 ensureNotNull, Boolean resolveIfMutable, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoForRootType(Type type, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.TryGetPolymorphicTypeInfoForRootType(Object rootValue, JsonTypeInfo& polymorphicTypeInfo)
+         at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.SerializeAsync(Stream utf8Json, T rootValue, CancellationToken cancellationToken, Object rootValueBoxed)
+         at Microsoft.AspNetCore.Http.HttpResponseJsonExtensions.WriteAsJsonAsyncSlow[TValue](Stream body, TValue value, JsonSerializerOptions options, CancellationToken cancellationToken)
+         at Microsoft.AspNetCore.Http.RequestDelegateFactory.<>c__DisplayClass102_2.<<HandleRequestBodyAndCompileRequestDelegateForJson>b__2>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+fail: Microsoft.EntityFrameworkCore.Database.Connection[20004]
+      An error occurred using the connection to database 'mymo_identity' on server '.'.
+fail: Microsoft.AspNetCore.Server.Kestrel[13]
+      Connection id "0HNQ3NV2T9UQR", Request id "0HNQ3NV2T9UQR:00000006": An unhandled exception was thrown by the application.
+      System.InvalidOperationException: The type 'System.Threading.ExecutionContext&' of property 'Context' on type 'System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1[Microsoft.AspNetCore.Http.IResult,Mymo.Identity.IdentityEndpoints+<Gate>d__1]' is invalid for serialization or deserialization because it is a pointer type, is a ref struct, or contains generic parameters that have not been replaced by specific types.
+         at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_CannotSerializeInvalidType(Type typeToConvert, Type declaringType, MemberInfo memberInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreatePropertyInfo(JsonTypeInfo typeInfo, Type typeToConvert, MemberInfo memberInfo, JsonSerializerOptions options, Boolean shouldCheckForRequiredKeyword, Boolean hasJsonIncludeAttribute)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.AddMembersDeclaredBySuperType(JsonTypeInfo typeInfo, Type currentType, Boolean constructorHasSetsRequiredMembersAttribute, PropertyHierarchyResolutionState& state)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.PopulateProperties(JsonTypeInfo typeInfo)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.CreateTypeInfoCore(Type type, JsonConverter converter, JsonSerializerOptions options)
+         at System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver.GetTypeInfo(Type type, JsonSerializerOptions options)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoNoCaching(Type type)
+         at System.Text.Json.JsonSerializerOptions.CachingContext.CreateCacheEntry(Type type, CachingContext context)
+      --- End of stack trace from previous location ---
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoInternal(Type type, Boolean ensureConfigured, Nullable`1 ensureNotNull, Boolean resolveIfMutable, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.GetTypeInfoForRootType(Type type, Boolean fallBackToNearestAncestorType)
+         at System.Text.Json.JsonSerializerOptions.TryGetPolymorphicTypeInfoForRootType(Object rootValue, JsonTypeInfo& polymorphicTypeInfo)
+         at System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.SerializeAsync(Stream utf8Json, T rootValue, CancellationToken cancellationToken, Object rootValueBoxed)
+         at Microsoft.AspNetCore.Http.HttpResponseJsonExtensions.WriteAsJsonAsyncSlow[TValue](Stream body, TValue value, JsonSerializerOptions options, CancellationToken cancellationToken)
+         at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+         at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+         at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+         at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+fail: Microsoft.EntityFrameworkCore.Database.Command[20102]
+      Failed executing DbCommand (139ms) [Parameters=[@__set_0='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[UserId] IN (
+          SELECT [s].[value]
+          FROM OPENJSON(@__set_0) WITH ([value] uniqueidentifier '$') AS [s]
+      )
+info: Microsoft.EntityFrameworkCore.Database.Command[20101]
+      Executed DbCommand (32ms) [Parameters=[@__p_1='?' (DbType = Int32), @__keyword_0_contains='?' (Size = 450), @__keyword_0_contains_1='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+      SELECT TOP(@__p_1) [u].[UserId], [u].[AvatarFrame], [u].[AvatarUrl], [u].[Bio], [u].[CoverUrl], [u].[CreatedAt], [u].[DateOfBirth], [u].[DisplayName], [u].[Email], [u].[FavoritePlacesJson], [u].[Gender], [u].[IsAnonymous], [u].[IsDeleted], [u].[IsLocationSharing], [u].[IsOnline], [u].[IsPremium], [u].[LastActiveAt], [u].[LastSeen], [u].[Latitude], [u].[Longitude], [u].[MapMarker], [u].[PasswordHash], [u].[PhoneNumber], [u].[ProfileTheme], [u].[ProfileTitle], [u].[Role], [u].[Status], [u].[Username]
+      FROM [Users] AS [u]
+      WHERE [u].[IsDeleted] = CAST(0 AS bit) AND (LOWER([u].[Username]) LIKE @__keyword_0_contains ESCAPE N'\' OR LOWER([u].[DisplayName]) LIKE @__keyword_0_contains_1 ESCAPE N'\' OR [u].[Email] LIKE @__keyword_0_contains ESCAPE N'\')
+fail: Microsoft.EntityFrameworkCore.Query[10100]
+      An exception occurred while iterating over the results of a query for context type 'Mymo.Identity.Data.IdentityDbContext'.
+      System.InvalidOperationException: Invalid operation. The connection is closed.
+         at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+         at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+         at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+      --- End of stack trace from previous location ---
+         at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+         at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+      --- End of stack trace from previous location ---
+         at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+      System.InvalidOperationException: Invalid operation. The connection is closed.
+         at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__211_0(Task`1 result)
+         at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+         at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+      --- End of stack trace from previous location ---
+         at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+         at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+      --- End of stack trace from previous location ---
+         at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.<>c__DisplayClass30_0`2.<<ExecuteAsync>b__0>d.MoveNext()
+      --- End of stack trace from previous location ---
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteImplementationAsync[TState,TResult](Func`4 operation, Func`4 verifySucceeded, TState state, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Storage.ExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+         at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()

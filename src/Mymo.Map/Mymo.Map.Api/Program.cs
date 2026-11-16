@@ -24,7 +24,14 @@ app.MapHub<MapHub>("/hubs/map");
 
 using (var scope = app.Services.CreateScope())
 {
-    await MapSeed.Run(scope.ServiceProvider.GetRequiredService<MapDbContext>());
+    try
+    {
+        await MapSeed.Run(scope.ServiceProvider.GetRequiredService<MapDbContext>());
+    }
+    catch (Exception ex)
+    {
+        app.Logger.LogWarning("Database seed skipped or failed on startup: {Message}", ex.Message);
+    }
 }
 
 app.Run();
