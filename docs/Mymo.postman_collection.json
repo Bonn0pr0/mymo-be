@@ -1,0 +1,310 @@
+{
+  "info": {
+    "_postman_id": "a9f8d7c6-5b4a-4e3d-8f2e-1a2b3c4d5e6f",
+    "name": "MyMo Backend Microservices API Collection",
+    "description": "Bộ sưu tập API đầy đủ cho 5 Microservices của MyMo (Identity, Social, Map, Chat, Business) thông qua YARP Gateway (http://localhost:5079). Tự động lưu JWT Token khi chạy request Login.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "gatewayUrl",
+      "value": "http://localhost:5079",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Identity & Auth Service",
+      "item": [
+        {
+          "name": "Login (Demo User - Auto Save Token)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res && res.accessToken) {",
+                  "    pm.collectionVariables.set('token', res.accessToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"demo@mymo.app\",\n  \"password\": \"Demo123!\"\n}"
+            },
+            "url": "{{gatewayUrl}}/api/Auth/login"
+          }
+        },
+        {
+          "name": "Login (Business Owner - Cafe Momo)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res && res.accessToken) {",
+                  "    pm.collectionVariables.set('token', res.accessToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"business@mymo.app\",\n  \"password\": \"business123\"\n}"
+            },
+            "url": "{{gatewayUrl}}/api/Auth/login"
+          }
+        },
+        {
+          "name": "Login (Admin Portal)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res && res.accessToken) {",
+                  "    pm.collectionVariables.set('token', res.accessToken);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@mymo.app\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": "{{gatewayUrl}}/api/Auth/login"
+          }
+        },
+        {
+          "name": "Get Current User Profile (/api/users/me)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{gatewayUrl}}/api/users/me"
+          }
+        },
+        {
+          "name": "Get User Activity Stats (/api/users/me/stats)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{gatewayUrl}}/api/users/me/stats"
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Social & AI Hana Service",
+      "item": [
+        {
+          "name": "Get Public Feed (/api/posts/feed)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{gatewayUrl}}/api/posts/feed"
+          }
+        },
+        {
+          "name": "Get Nearby Posts on Map (/api/posts/nearby)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{gatewayUrl}}/api/posts/nearby?lat=10.7735&lng=106.7034&radius=10"
+          }
+        },
+        {
+          "name": "Create New Location Post (/api/posts)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"caption\": \"Cà phê chiều cuối tuần tại Nguyễn Huệ\",\n  \"postType\": \"Photo\",\n  \"visibility\": \"Public\",\n  \"placeId\": \"66666666-6666-6666-6666-666666666666\",\n  \"latitude\": 10.7735,\n  \"longitude\": 106.7034\n}"
+            },
+            "url": "{{gatewayUrl}}/api/posts"
+          }
+        },
+        {
+          "name": "Chat with AI Assistant Hana (/api/mymy/chat)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Gợi ý quán cafe chill ở Quận 1\"\n}"
+            },
+            "url": "{{gatewayUrl}}/api/mymy/chat"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Map, Places & Weather Service",
+      "item": [
+        {
+          "name": "Get Nearby Places (/api/places/nearby)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{gatewayUrl}}/api/places/nearby?latitude=10.7735&longitude=106.7034&radiusKm=10"
+          }
+        },
+        {
+          "name": "Filter Places by Vibe (#chill)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{gatewayUrl}}/api/places/nearby?latitude=10.7735&longitude=106.7034&radiusKm=10&vibe=chill"
+          }
+        },
+        {
+          "name": "Get Place Detail (Momo Nguyen Hue)",
+          "request": {
+            "method": "GET",
+            "url": "{{gatewayUrl}}/api/places/66666666-6666-6666-6666-666666666666/detail"
+          }
+        },
+        {
+          "name": "Check-in at Place with Mood & Weather (/api/checkins)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"placeId\": \"66666666-6666-6666-6666-666666666666\",\n  \"mood\": \"Chill\",\n  \"weather\": \"Sunny\"\n}"
+            },
+            "url": "{{gatewayUrl}}/api/checkins"
+          }
+        },
+        {
+          "name": "Get Current Weather at Coordinates (/api/weather/current)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{gatewayUrl}}/api/weather/current?lat=10.7735&lng=106.7034"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Chat Realtime Service",
+      "item": [
+        {
+          "name": "List My Conversations (/api/conversations)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{gatewayUrl}}/api/conversations/"
+          }
+        },
+        {
+          "name": "Open Private Conversation (/api/conversations/private)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"33333333-3333-3333-3333-333333333333\"\n}"
+            },
+            "url": "{{gatewayUrl}}/api/conversations/private"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Business, Premium & Admin Billing Service",
+      "item": [
+        {
+          "name": "Get Product Packages Catalog (/api/catalog/product-packages)",
+          "request": {
+            "method": "GET",
+            "url": "{{gatewayUrl}}/api/catalog/product-packages"
+          }
+        },
+        {
+          "name": "Create User Premium Order (/api/users/premium/orders)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"planId\": \"monthly\"\n}"
+            },
+            "url": "{{gatewayUrl}}/api/users/premium/orders"
+          }
+        },
+        {
+          "name": "Get Admin Dashboard Overview (/api/admin/dashboard)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{gatewayUrl}}/api/admin/dashboard"
+          }
+        }
+      ]
+    }
+  ]
+}
