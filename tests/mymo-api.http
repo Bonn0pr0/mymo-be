@@ -1,0 +1,47 @@
+@gateway = http://localhost:5079
+
+### 1. Health Check (Gateway)
+GET {{gateway}}/health
+
+### 2. Login as Demo User
+# @name loginDemo
+POST {{gateway}}/api/Auth/login
+Content-Type: application/json
+
+{
+  "email": "demo@mymo.app",
+  "password": "Demo123!"
+}
+
+### 3. Get Current User Profile
+@token = {{loginDemo.response.body.accessToken}}
+GET {{gateway}}/api/users/me
+Authorization: Bearer {{token}}
+
+### 4. Get Nearby Places (Map Service via Gateway)
+GET {{gateway}}/api/places/nearby?latitude=10.7735&longitude=106.7034&radiusKm=10
+Authorization: Bearer {{token}}
+
+### 5. Filter Nearby Places by Vibe ("study")
+GET {{gateway}}/api/places/nearby?latitude=10.7735&longitude=106.7034&radiusKm=10&vibe=study
+Authorization: Bearer {{token}}
+
+### 6. Get Place Categories
+GET {{gateway}}/api/place-categories
+
+### 7. Get Social Public Feed
+GET {{gateway}}/api/posts/feed
+Authorization: Bearer {{token}}
+
+### 8. Chat with AI Assistant Hana
+POST {{gateway}}/api/mymy/chat
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "message": "Gợi ý quán cafe chill ở Quận 1"
+}
+
+### 9. Get B2C & B2B Product Packages Catalog (Business Service)
+GET {{gateway}}/api/catalog/product-packages
+
