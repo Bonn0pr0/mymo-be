@@ -54,6 +54,8 @@ services:
     environment:
       <<: [*api-environment, *upload-environment]
       ConnectionStrings__Database: Server=sqlserver,1433;Database=mymo_social;User Id=sa;Password=${MYMO_MSSQL_PASSWORD:-YourStrong@Passw0rd};TrustServerCertificate=True;MultipleActiveResultSets=true;Encrypt=False
+      Gemini__ApiKey: ${GEMINI_API_KEY:-}
+      Gemini__Model: ${MYMO_GEMINI_MODEL:-}
     volumes:
       - uploads:/app/uploads
     depends_on:

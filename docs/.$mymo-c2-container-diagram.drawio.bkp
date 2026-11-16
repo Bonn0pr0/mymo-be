@@ -1,0 +1,277 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net" compressed="false">
+  <diagram id="mymo-c2" name="C2 Container Diagram">
+    <mxGraphModel dx="1510" dy="1030" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1510" pageHeight="1030" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="mymo-boundary" vertex="1" parent="1" value="" style="rounded=1;absoluteArcSize=1;arcSize=24;fillColor=#F4F8FC;strokeColor=#B7C8D9;strokeWidth=1.5;connectable=0;">
+          <mxGeometry x="64" y="211" width="1384" height="620" as="geometry" />
+        </mxCell>
+        <mxCell id="section" vertex="1" parent="1" value="2 Runtime View" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=26;fontColor=#294E74;fontStyle=1;whiteSpace=wrap;spacing=0;">
+          <mxGeometry x="48" y="23" width="390" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="caption" vertex="1" parent="1" value="C2 Container Diagram" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=17;fontColor=#294E74;fontStyle=1;whiteSpace=wrap;spacing=0;">
+          <mxGeometry x="48" y="63" width="390" height="27" as="geometry" />
+        </mxCell>
+        <mxCell id="title" vertex="1" parent="1" value="MYMO · C2 CONTAINER DIAGRAM" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=22;fontColor=#172B40;fontStyle=1;whiteSpace=wrap;spacing=0;">
+          <mxGeometry x="465" y="94" width="570" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="boundary-label" vertex="1" parent="1" value="MyMo" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fontStyle=1;whiteSpace=wrap;spacing=0;">
+          <mxGeometry x="82" y="221" width="130" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="user" vertex="1" parent="1" value="&lt;b&gt;User&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;Person&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#E3F2EC;strokeColor=#94B8AB;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="667" y="133" width="166" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="web" vertex="1" parent="1" value="&lt;b&gt;Web App&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;Web client&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#E5EEFA;strokeColor=#9CB2CB;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="480" y="244" width="210" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="mobile" vertex="1" parent="1" value="&lt;b&gt;Mobile App&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;Mobile client&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#E5EEFA;strokeColor=#9CB2CB;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="810" y="244" width="210" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="gateway" vertex="1" parent="1" value="&lt;b&gt;API Gateway&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;YARP&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#FFF0D6;strokeColor=#C6AB79;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="620" y="332" width="260" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="identity" vertex="1" parent="1" value="&lt;b&gt;Identity API&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;ASP.NET Core 8&lt;br&gt;Auth / Users&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#E5EEFA;strokeColor=#9CB2CB;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="90" y="458" width="200" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="identity-db" vertex="1" parent="1" value="&lt;b&gt;Identity DB&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;SQLite&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#E3F2EC;strokeColor=#94B8AB;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="98" y="590" width="185" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="social" vertex="1" parent="1" value="&lt;b&gt;Social API&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;ASP.NET Core 8&lt;br&gt;Posts / Friends&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#E5EEFA;strokeColor=#9CB2CB;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="370" y="458" width="200" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="social-db" vertex="1" parent="1" value="&lt;b&gt;Social DB&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;SQLite&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#E3F2EC;strokeColor=#94B8AB;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="378" y="590" width="185" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="chat" vertex="1" parent="1" value="&lt;b&gt;Chat API&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;ASP.NET Core 8&lt;br&gt;Messages / SignalR&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#E5EEFA;strokeColor=#9CB2CB;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="650" y="458" width="200" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="chat-db" vertex="1" parent="1" value="&lt;b&gt;Chat DB&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;SQLite&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#E3F2EC;strokeColor=#94B8AB;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="658" y="590" width="185" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="business" vertex="1" parent="1" value="&lt;b&gt;Business API&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;ASP.NET Core 8&lt;br&gt;Business / Billing&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#E5EEFA;strokeColor=#9CB2CB;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="930" y="458" width="200" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="business-db" vertex="1" parent="1" value="&lt;b&gt;Business DB&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;SQLite&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#E3F2EC;strokeColor=#94B8AB;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="938" y="590" width="185" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="mymo-map-api" vertex="1" parent="1" value="&lt;b&gt;Map API&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;ASP.NET Core 8&lt;br&gt;Places / SignalR&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#E5EEFA;strokeColor=#9CB2CB;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="1210" y="458" width="200" height="75" as="geometry" />
+        </mxCell>
+        <mxCell id="map-db" vertex="1" parent="1" value="&lt;b&gt;Map DB&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;SQLite&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#E3F2EC;strokeColor=#94B8AB;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="1218" y="590" width="185" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="rabbit" vertex="1" parent="1" value="&lt;b&gt;RabbitMQ&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;Commands&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#F0E9FA;strokeColor=#B2A0C8;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="350" y="741" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="kafka" vertex="1" parent="1" value="&lt;b&gt;Kafka&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;PostCreated&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#F0E9FA;strokeColor=#B2A0C8;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="910" y="741" width="240" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cloudinary" vertex="1" parent="1" value="&lt;b&gt;Cloudinary&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;Media storage / CDN&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#EFF2F6;strokeColor=#AAB7C7;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="80" y="925" width="220" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="ai" vertex="1" parent="1" value="&lt;b&gt;AI Service&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;AI assistant&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#EFF2F6;strokeColor=#AAB7C7;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="360" y="925" width="220" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="mapbox" vertex="1" parent="1" value="&lt;b&gt;Mapbox&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;Maps / Geolocation&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#EFF2F6;strokeColor=#AAB7C7;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="920" y="925" width="220" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="weather" vertex="1" parent="1" value="&lt;b&gt;Open-Meteo&lt;/b&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: #465B71&quot;&gt;Weather&lt;/span&gt;" style="rounded=1;absoluteArcSize=1;arcSize=16;whiteSpace=wrap;html=1;align=center;verticalAlign=middle;fontFamily=Arial;fontSize=16;fontColor=#172B40;fillColor=#EFF2F6;strokeColor=#AAB7C7;strokeWidth=1.4;spacing=4;">
+          <mxGeometry x="1200" y="925" width="220" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="use-web" edge="1" parent="1" source="user" target="web" value="Uses" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#F4F8FC;exitX=0.23493976;exitY=1.00000000;exitPerimeter=0;entryX=0.50000000;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.755555556" as="geometry">
+            <Array as="points">
+              <mxPoint x="706" y="199" />
+              <mxPoint x="585" y="199" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="use-mobile" edge="1" parent="1" source="user" target="mobile" value="Uses" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#F4F8FC;exitX=0.76506024;exitY=1.00000000;exitPerimeter=0;entryX=0.50000000;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.755555556" as="geometry">
+            <Array as="points">
+              <mxPoint x="794" y="199" />
+              <mxPoint x="915" y="199" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="web-gateway" edge="1" parent="1" source="web" target="gateway" value="API calls · HTTP" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#F4F8FC;exitX=0.50000000;exitY=1.00000000;exitPerimeter=0;entryX=0.27307692;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="-0.144927536" as="geometry">
+            <Array as="points">
+              <mxPoint x="585" y="316" />
+              <mxPoint x="691" y="316" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mobile-gateway" edge="1" parent="1" source="mobile" target="gateway" value="API calls · HTTP" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#F4F8FC;exitX=0.50000000;exitY=1.00000000;exitPerimeter=0;entryX=0.72692308;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="-0.144927536" as="geometry">
+            <Array as="points">
+              <mxPoint x="915" y="316" />
+              <mxPoint x="809" y="316" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="route-identity" edge="1" parent="1" source="gateway" target="identity" value="HTTP / JSON" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#F4F8FC;exitX=0.50000000;exitY=1.00000000;exitPerimeter=0;entryX=0.50000000;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.939297125" as="geometry">
+            <Array as="points">
+              <mxPoint x="750" y="421" />
+              <mxPoint x="190" y="421" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="data-identity" edge="1" parent="1" source="identity" target="identity-db" value="Read / Write · EF Core" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#F4F8FC;exitX=0.50000000;exitY=1.00000000;exitPerimeter=0;entryX=0.49729730;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="-0.087719298" as="geometry" />
+        </mxCell>
+        <mxCell id="route-social" edge="1" parent="1" source="gateway" target="social" value="HTTP / JSON" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#F4F8FC;exitX=0.50000000;exitY=1.00000000;exitPerimeter=0;entryX=0.50000000;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.890173410" as="geometry">
+            <Array as="points">
+              <mxPoint x="750" y="421" />
+              <mxPoint x="470" y="421" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="data-social" edge="1" parent="1" source="social" target="social-db" value="Read / Write · EF Core" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#F4F8FC;exitX=0.50000000;exitY=1.00000000;exitPerimeter=0;entryX=0.49729730;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="-0.087719298" as="geometry" />
+        </mxCell>
+        <mxCell id="route-chat" edge="1" parent="1" source="gateway" target="chat" value="HTTP / SignalR" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#F4F8FC;exitX=0.50000000;exitY=1.00000000;exitPerimeter=0;entryX=0.50000000;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.424242424" as="geometry" />
+        </mxCell>
+        <mxCell id="data-chat" edge="1" parent="1" source="chat" target="chat-db" value="Read / Write · EF Core" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#F4F8FC;exitX=0.50000000;exitY=1.00000000;exitPerimeter=0;entryX=0.49729730;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="-0.087719298" as="geometry" />
+        </mxCell>
+        <mxCell id="route-business" edge="1" parent="1" source="gateway" target="business" value="HTTP / JSON" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#F4F8FC;exitX=0.50000000;exitY=1.00000000;exitPerimeter=0;entryX=0.50000000;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.890173410" as="geometry">
+            <Array as="points">
+              <mxPoint x="750" y="421" />
+              <mxPoint x="1030" y="421" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="data-business" edge="1" parent="1" source="business" target="business-db" value="Read / Write · EF Core" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#F4F8FC;exitX=0.50000000;exitY=1.00000000;exitPerimeter=0;entryX=0.49729730;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="-0.087719298" as="geometry" />
+        </mxCell>
+        <mxCell id="route-map" edge="1" parent="1" source="gateway" target="mymo-map-api" value="HTTP / SignalR" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#F4F8FC;exitX=0.50000000;exitY=1.00000000;exitPerimeter=0;entryX=0.50000000;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.939297125" as="geometry">
+            <Array as="points">
+              <mxPoint x="750" y="421" />
+              <mxPoint x="1310" y="421" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="data-map" edge="1" parent="1" source="mymo-map-api" target="map-db" value="Read / Write · EF Core" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#F4F8FC;exitX=0.50000000;exitY=1.00000000;exitPerimeter=0;entryX=0.49729730;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="-0.087719298" as="geometry" />
+        </mxCell>
+        <mxCell id="social-rabbit" edge="1" parent="1" source="social" target="rabbit" value="Publish CreateReport" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#785698;fontFamily=Arial;fontSize=12;fontColor=#785698;labelBackgroundColor=#F4F8FC;dashed=1;dashPattern=5 4;exitX=0.00000000;exitY=0.30666667;exitPerimeter=0;entryX=0.29583333;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.584415584" as="geometry">
+            <Array as="points">
+              <mxPoint x="333" y="481" />
+              <mxPoint x="333" y="687" />
+              <mxPoint x="421" y="687" />
+            </Array>
+            <mxPoint x="0.0" y="-12.0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="social-kafka" edge="1" parent="1" source="social" target="kafka" value="Publish PostCreated" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#986120;fontFamily=Arial;fontSize=12;fontColor=#986120;labelBackgroundColor=#F4F8FC;dashed=1;dashPattern=5 4;exitX=1.00000000;exitY=0.58666667;exitPerimeter=0;entryX=0.28333333;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.149922720" as="geometry">
+            <Array as="points">
+              <mxPoint x="628" y="502" />
+              <mxPoint x="628" y="666" />
+              <mxPoint x="978" y="666" />
+            </Array>
+            <mxPoint x="0.0" y="-9.0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="business-rabbit" edge="1" parent="1" source="business" target="rabbit" value="Publish commands" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#785698;fontFamily=Arial;fontSize=12;fontColor=#785698;labelBackgroundColor=#F4F8FC;dashed=1;dashPattern=5 4;exitX=0.00000000;exitY=0.37333333;exitPerimeter=0;entryX=0.72500000;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.267776097" as="geometry">
+            <Array as="points">
+              <mxPoint x="889" y="486" />
+              <mxPoint x="889" y="716" />
+              <mxPoint x="524" y="716" />
+            </Array>
+            <mxPoint x="0.0" y="-9.0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rabbit-identity" edge="1" parent="1" source="rabbit" target="identity" value="Consume role / premium / report" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#785698;fontFamily=Arial;fontSize=12;fontColor=#785698;labelBackgroundColor=#F4F8FC;dashed=1;dashPattern=5 4;exitX=0.00000000;exitY=0.60000000;exitPerimeter=0;entryX=0.00000000;entryY=0.68000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="-0.442446043" as="geometry">
+            <Array as="points">
+              <mxPoint x="76" y="777" />
+              <mxPoint x="76" y="509" />
+            </Array>
+            <mxPoint x="0.0" y="-13.0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rabbit-map" edge="1" parent="1" source="rabbit" target="mymo-map-api" value="Consume UpdatePlaceAd" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#785698;fontFamily=Arial;fontSize=12;fontColor=#785698;labelBackgroundColor=#F4F8FC;dashed=1;dashPattern=5 4;exitX=1.00000000;exitY=0.70000000;exitPerimeter=0;entryX=1.00000000;entryY=0.64000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="-0.188085106" as="geometry">
+            <Array as="points">
+              <mxPoint x="648" y="783" />
+              <mxPoint x="648" y="810" />
+              <mxPoint x="1422" y="810" />
+              <mxPoint x="1422" y="506" />
+            </Array>
+            <mxPoint x="0.0" y="9.0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="kafka-map" edge="1" parent="1" source="kafka" target="mymo-map-api" value="Consume PostCreated" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#986120;fontFamily=Arial;fontSize=12;fontColor=#986120;labelBackgroundColor=#F4F8FC;dashed=1;dashPattern=5 4;exitX=1.00000000;exitY=0.46666667;exitPerimeter=0;entryX=1.00000000;entryY=0.33333333;entryPerimeter=0;">
+          <mxGeometry relative="1" x="-0.418060201" as="geometry">
+            <Array as="points">
+              <mxPoint x="1436" y="769" />
+              <mxPoint x="1436" y="483" />
+            </Array>
+            <mxPoint x="0.0" y="-13.0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="identity-cloudinary" edge="1" parent="1" source="identity" target="cloudinary" value="Avatar upload · HTTPS" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#FFFFFF;exitX=0.00000000;exitY=0.32000000;exitPerimeter=0;entryX=0.32272727;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.726666667" as="geometry">
+            <Array as="points">
+              <mxPoint x="42" y="482" />
+              <mxPoint x="42" y="895" />
+              <mxPoint x="151" y="895" />
+            </Array>
+            <mxPoint x="0.0" y="-12.0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="social-cloudinary" edge="1" parent="1" source="social" target="cloudinary" value="Media upload · HTTPS" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#FFFFFF;jumpStyle=arc;jumpSize=7;exitX=0.00000000;exitY=0.77333333;exitPerimeter=0;entryX=0.67727273;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.607272727" as="geometry">
+            <Array as="points">
+              <mxPoint x="306" y="516" />
+              <mxPoint x="306" y="859" />
+              <mxPoint x="229" y="859" />
+            </Array>
+            <mxPoint x="0.0" y="15.0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="social-ai" edge="1" parent="1" source="social" target="ai" value="AI request · HTTPS" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#FFFFFF;jumpStyle=arc;jumpSize=7;exitX=1.00000000;exitY=0.82666667;exitPerimeter=0;entryX=0.50000000;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.664921466" as="geometry">
+            <Array as="points">
+              <mxPoint x="604" y="520" />
+              <mxPoint x="604" y="895" />
+              <mxPoint x="470" y="895" />
+            </Array>
+            <mxPoint x="0.0" y="-12.0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="map-mapbox" edge="1" parent="1" source="mymo-map-api" target="mapbox" value="Map / Geo · HTTPS" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#FFFFFF;jumpStyle=arc;jumpSize=7;exitX=0.00000000;exitY=0.78666667;exitPerimeter=0;entryX=0.50000000;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.639455782" as="geometry">
+            <Array as="points">
+              <mxPoint x="1182" y="517" />
+              <mxPoint x="1182" y="895" />
+              <mxPoint x="1030" y="895" />
+            </Array>
+            <mxPoint x="0.0" y="-12.0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="map-weather" edge="1" parent="1" source="mymo-map-api" target="weather" value="Weather · HTTPS" style="noEdgeStyle=1;rounded=0;html=1;endArrow=block;endFill=1;endSize=5;strokeWidth=1.6;strokeColor=#526A82;fontFamily=Arial;fontSize=12;fontColor=#526A82;labelBackgroundColor=#FFFFFF;exitX=1.00000000;exitY=0.86666667;exitPerimeter=0;entryX=0.50000000;entryY=0.00000000;entryPerimeter=0;">
+          <mxGeometry relative="1" x="0.647249191" as="geometry">
+            <Array as="points">
+              <mxPoint x="1468" y="523" />
+              <mxPoint x="1468" y="895" />
+              <mxPoint x="1310" y="895" />
+            </Array>
+            <mxPoint x="0.0" y="-12.0" as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

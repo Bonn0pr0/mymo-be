@@ -61,7 +61,8 @@ public static class SocialEndpoints
 
         app.MapPost("/api/media/upload", async (ClaimsPrincipal u, PostService posts, HttpRequest request) => (await posts.Upload(u, request.Form.Files.FirstOrDefault())).ToHttp()).RequireAuthorization().DisableAntiforgery();
         app.MapPost("/api/media/upload-multiple", async (ClaimsPrincipal u, PostService posts, HttpRequest request) => (await posts.UploadMany(u, request.Form.Files)).ToHttp()).RequireAuthorization().DisableAntiforgery();
-        app.MapPost("/api/mymy/chat", (PostService posts, JsonElement body) => posts.Hana(body).ToHttp()).RequireAuthorization();
+        app.MapPost("/api/mymy/chat", async (HanaService hana, JsonElement body, CancellationToken ct) =>
+            (await hana.ReplyAsync(JsonBody.Text(body, "message"), ct)).ToHttp()).RequireAuthorization();
 
         app.MapGet("/internal/users/{id:guid}/activity", async (Guid id, HttpRequest request, IConfiguration config, PostService posts) =>
         {
