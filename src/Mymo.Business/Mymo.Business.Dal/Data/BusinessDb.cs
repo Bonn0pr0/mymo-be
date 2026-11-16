@@ -107,6 +107,11 @@ public class BusinessDbContext : DbContext
     public DbSet<PremiumOrderRow> PremiumOrders => Set<PremiumOrderRow>();
     public DbSet<CampaignRow> Campaigns => Set<CampaignRow>();
 
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Properties<decimal>().HavePrecision(18, 2);
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BusinessRow>().HasKey(b => b.BusinessId);

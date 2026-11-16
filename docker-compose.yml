@@ -1,7 +1,7 @@
 x-api-environment: &api-environment
-  Jwt__Secret: ${MYMO_JWT_SECRET:?Set MYMO_JWT_SECRET in .env}
-  Internal__Key: ${MYMO_INTERNAL_KEY:?Set MYMO_INTERNAL_KEY in .env}
-  Messaging__RabbitMq: amqp://mymo:${MYMO_RABBITMQ_PASSWORD:?Set MYMO_RABBITMQ_PASSWORD in .env}@rabbitmq:5672
+  Jwt__Secret: ${MYMO_JWT_SECRET:-mymo-dev-secret-key-change-me-32b!}
+  Internal__Key: ${MYMO_INTERNAL_KEY:-mymo-local}
+  Messaging__RabbitMq: amqp://mymo:${MYMO_RABBITMQ_PASSWORD:-mymo_rabbit_pass_123}@rabbitmq:5672
   Messaging__Kafka: kafka:9092
   Services__Identity: http://identity:5001
   Services__Social: http://social:5002
@@ -14,17 +14,36 @@ x-upload-environment: &upload-environment
   PublicOrigin: ${MYMO_PUBLIC_ORIGIN:-http://localhost:${MYMO_GATEWAY_PORT:-5079}}
 
 services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mymo-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${MYMO_MSSQL_PASSWORD:-YourStrong@Passw0rd}
+      MSSQL_PID: Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$${MSSQL_SA_PASSWORD}\" -C -Q 'SELECT 1' 2>/dev/null || /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P \"$${MSSQL_SA_PASSWORD}\" -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
   identity:
     build:
       context: .
       dockerfile: src/Mymo.Identity/Mymo.Identity.Api/Dockerfile.compose
     environment:
       <<: [*api-environment, *upload-environment]
-      ConnectionStrings__Database: Data Source=/app/data/mymo_identity.db
+      ConnectionStrings__Database: Server=sqlserver,1433;Database=mymo_identity;User Id=sa;Password=${MYMO_MSSQL_PASSWORD:-YourStrong@Passw0rd};TrustServerCertificate=True;MultipleActiveResultSets=true;Encrypt=False
     volumes:
-      - identity-data:/app/data
       - uploads:/app/uploads
     depends_on:
+      sqlserver:
+        condition: service_healthy
       rabbitmq:
         condition: service_healthy
 
@@ -34,11 +53,12 @@ services:
       dockerfile: src/Mymo.Social/Mymo.Social.Api/Dockerfile.compose
     environment:
       <<: [*api-environment, *upload-environment]
-      ConnectionStrings__Database: Data Source=/app/data/mymo_social.db
+      ConnectionStrings__Database: Server=sqlserver,1433;Database=mymo_social;User Id=sa;Password=${MYMO_MSSQL_PASSWORD:-YourStrong@Passw0rd};TrustServerCertificate=True;MultipleActiveResultSets=true;Encrypt=False
     volumes:
-      - social-data:/app/data
       - uploads:/app/uploads
     depends_on:
+      sqlserver:
+        condition: service_healthy
       rabbitmq:
         condition: service_healthy
       kafka-init:
@@ -50,10 +70,10 @@ services:
       dockerfile: src/Mymo.Map/Mymo.Map.Api/Dockerfile.compose
     environment:
       <<: *api-environment
-      ConnectionStrings__Database: Data Source=/app/data/mymo_map.db
-    volumes:
-      - map-data:/app/data
+      ConnectionStrings__Database: Server=sqlserver,1433;Database=mymo_map;User Id=sa;Password=${MYMO_MSSQL_PASSWORD:-YourStrong@Passw0rd};TrustServerCertificate=True;MultipleActiveResultSets=true;Encrypt=False
     depends_on:
+      sqlserver:
+        condition: service_healthy
       rabbitmq:
         condition: service_healthy
       kafka-init:
@@ -65,9 +85,10 @@ services:
       dockerfile: src/Mymo.Chat/Mymo.Chat.Api/Dockerfile.compose
     environment:
       <<: *api-environment
-      ConnectionStrings__Database: Data Source=/app/data/mymo_chat.db
-    volumes:
-      - chat-data:/app/data
+      ConnectionStrings__Database: Server=sqlserver,1433;Database=mymo_chat;User Id=sa;Password=${MYMO_MSSQL_PASSWORD:-YourStrong@Passw0rd};TrustServerCertificate=True;MultipleActiveResultSets=true;Encrypt=False
+    depends_on:
+      sqlserver:
+        condition: service_healthy
 
   business:
     build:
@@ -75,10 +96,10 @@ services:
       dockerfile: src/Mymo.Business/Mymo.Business.Api/Dockerfile.compose
     environment:
       <<: *api-environment
-      ConnectionStrings__Database: Data Source=/app/data/mymo_business.db
-    volumes:
-      - business-data:/app/data
+      ConnectionStrings__Database: Server=sqlserver,1433;Database=mymo_business;User Id=sa;Password=${MYMO_MSSQL_PASSWORD:-YourStrong@Passw0rd};TrustServerCertificate=True;MultipleActiveResultSets=true;Encrypt=False
     depends_on:
+      sqlserver:
+        condition: service_healthy
       rabbitmq:
         condition: service_healthy
 
@@ -104,7 +125,10 @@ services:
     image: rabbitmq:3-management
     environment:
       RABBITMQ_DEFAULT_USER: mymo
-      RABBITMQ_DEFAULT_PASS: ${MYMO_RABBITMQ_PASSWORD:?Set MYMO_RABBITMQ_PASSWORD in .env}
+      RABBITMQ_DEFAULT_PASS: ${MYMO_RABBITMQ_PASSWORD:-mymo_rabbit_pass_123}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
     healthcheck:
       test: [CMD, rabbitmq-diagnostics, -q, check_port_connectivity]
       interval: 5s
@@ -152,25 +176,9 @@ services:
       kafka:
         condition: service_healthy
 
-  postgres:
-    profiles: [postgres]
-    image: postgres:16
-    environment:
-      POSTGRES_USER: mymo
-      POSTGRES_PASSWORD: ${MYMO_POSTGRES_PASSWORD:-}
-      POSTGRES_DB: mymo
-    volumes:
-      - mymo-pg:/var/lib/postgresql/data
-      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-
 networks:
   default: {}
 
 volumes:
-  identity-data:
-  social-data:
-  map-data:
-  chat-data:
-  business-data:
+  mssql-data:
   uploads:
-  mymo-pg:
