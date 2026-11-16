@@ -9,32 +9,3 @@ info: Microsoft.Hosting.Lifetime[0]
       Hosting environment: Production
 info: Microsoft.Hosting.Lifetime[0]
       Content root path: D:\ASM PRM\BE\mymo-be\src\Mymo.Chat\Mymo.Chat.Api
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (4ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
-      SELECT "m"."MemberId", "m"."ConversationId", "m"."LastReadAt", "m"."UserId"
-      FROM "Members" AS "m"
-      WHERE "m"."UserId" = @__userId_0
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@__set_0='?' (Size = 2)], CommandType='Text', CommandTimeout='30']
-      SELECT "c"."ConversationId", "c"."CreatedAt", "c"."CreatedBy", "c"."LastMessage", "c"."LastMessageTime", "c"."Type"
-      FROM "Conversations" AS "c"
-      WHERE "c"."ConversationId" IN (
-          SELECT "s"."value"
-          FROM json_each(@__set_0) AS "s"
-      )
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@__set_0='?' (Size = 2)], CommandType='Text', CommandTimeout='30']
-      SELECT "m"."MemberId", "m"."ConversationId", "m"."LastReadAt", "m"."UserId"
-      FROM "Members" AS "m"
-      WHERE "m"."ConversationId" IN (
-          SELECT "s"."value"
-          FROM json_each(@__set_0) AS "s"
-      )
-info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
-      Start processing HTTP request POST http://localhost:5001/internal/users/batch
-info: System.Net.Http.HttpClient.internal.ClientHandler[100]
-      Sending HTTP request POST http://localhost:5001/internal/users/batch
-info: System.Net.Http.HttpClient.internal.ClientHandler[101]
-      Received HTTP response headers after 2092.3823ms - 200
-info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
-      End processing HTTP request after 2104.0201ms - 200

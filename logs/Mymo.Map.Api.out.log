@@ -1,5 +1,5 @@
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (21ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      Executed DbCommand (16ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
       SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
 info: Microsoft.EntityFrameworkCore.Database.Command[20101]
       Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
@@ -18,44 +18,3 @@ info: Microsoft.Hosting.Lifetime[0]
       Hosting environment: Production
 info: Microsoft.Hosting.Lifetime[0]
       Content root path: D:\ASM PRM\BE\mymo-be\src\Mymo.Map\Mymo.Map.Api
-info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
-      Start processing HTTP request POST http://localhost:5001/internal/users/22222222-2222-2222-2222-222222222222/presence
-info: System.Net.Http.HttpClient.internal.ClientHandler[100]
-      Sending HTTP request POST http://localhost:5001/internal/users/22222222-2222-2222-2222-222222222222/presence
-info: System.Net.Http.HttpClient.internal.ClientHandler[101]
-      Received HTTP response headers after 2554.7804ms - 200
-info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
-      End processing HTTP request after 2584.1387ms - 200
-info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
-      Start processing HTTP request POST http://localhost:5001/internal/users/22222222-2222-2222-2222-222222222222/presence
-info: System.Net.Http.HttpClient.internal.ClientHandler[100]
-      Sending HTTP request POST http://localhost:5001/internal/users/22222222-2222-2222-2222-222222222222/presence
-info: System.Net.Http.HttpClient.internal.ClientHandler[101]
-      Received HTTP response headers after 258.019ms - 200
-info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
-      End processing HTTP request after 258.745ms - 200
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
-      SELECT "p"."PlaceId", "p"."AdPackageId", "p"."Address", "p"."AverageRating", "p"."BusinessId", "p"."BusinessName", "p"."CategoryId", "p"."CategoryName", "p"."CheckInCount", "p"."City", "p"."Description", "p"."Latitude", "p"."LogoUrl", "p"."Longitude", "p"."Name", "p"."OpeningHours", "p"."OwnerId", "p"."Phone", "p"."ReviewCount", "p"."Status", "p"."ThumbnailUrl", "p"."Verified", "p"."Vibes"
-      FROM "Places" AS "p"
-      WHERE "p"."Status" = 'Approved'
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (3ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
-      SELECT "c"."CheckInId", "c"."CreatedAt", "c"."Latitude", "c"."Longitude", "c"."Mood", "c"."PlaceId", "c"."UserId", "c"."Weather"
-      FROM "CheckIns" AS "c"
-      WHERE "c"."UserId" = @__userId_0
-      ORDER BY "c"."CreatedAt" DESC
-info: Microsoft.EntityFrameworkCore.Database.Command[20101]
-      Executed DbCommand (0ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
-      SELECT "c"."CheckInId", "c"."CreatedAt", "c"."Latitude", "c"."Longitude", "c"."Mood", "c"."PlaceId", "c"."UserId", "c"."Weather"
-      FROM "CheckIns" AS "c"
-      WHERE "c"."UserId" = @__userId_0
-      ORDER BY "c"."CreatedAt" DESC
-info: System.Net.Http.HttpClient.internal.LogicalHandler[100]
-      Start processing HTTP request POST http://localhost:5001/internal/users/22222222-2222-2222-2222-222222222222/presence
-info: System.Net.Http.HttpClient.internal.ClientHandler[100]
-      Sending HTTP request POST http://localhost:5001/internal/users/22222222-2222-2222-2222-222222222222/presence
-info: System.Net.Http.HttpClient.internal.ClientHandler[101]
-      Received HTTP response headers after 2042.6517ms - 200
-info: System.Net.Http.HttpClient.internal.LogicalHandler[101]
-      End processing HTTP request after 2042.8703ms - 200
