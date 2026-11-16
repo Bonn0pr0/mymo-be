@@ -1,0 +1,29 @@
+name: MyMo Backend CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore Mymo.slnx
+
+      - name: Build solution
+        run: dotnet build Mymo.slnx --configuration Release --no-restore
+
+      - name: Run 12 Unit & Microservice BLL Tests
+        run: dotnet run --project tests/Mymo.Tests/Mymo.Tests.csproj --configuration Release
