@@ -1,5 +1,5 @@
 # Stop all Mymo Backend Services
-$ports = @(5001, 5002, 5003, 5004, 5005, 5079)
+$ports = @(5001, 5011, 5002, 5003, 5004, 5005, 5079)
 
 Write-Host "Stopping all Mymo Backend Services..."
 

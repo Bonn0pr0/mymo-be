@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Mymo.Shared.Messaging;
+using Mymo.Shared.Protos;
 
 namespace Mymo.Shared;
 
@@ -205,6 +206,13 @@ public static class MymoService
         });
         services.AddMymoMessaging(config);
         services.AddCloudinary();
+
+        AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
+        var grpcUrl = config["Services:IdentityGrpc"] ?? "http://localhost:5011";
+        services.AddGrpcClient<UserGrpcService.UserGrpcServiceClient>(o =>
+        {
+            o.Address = new Uri(grpcUrl);
+        });
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>

@@ -4,6 +4,7 @@ x-api-environment: &api-environment
   Messaging__RabbitMq: amqp://mymo:${MYMO_RABBITMQ_PASSWORD:-mymo_rabbit_pass_123}@rabbitmq:5672
   Messaging__Kafka: kafka:9092
   Services__Identity: http://identity:5001
+  Services__IdentityGrpc: http://identity:5011
   Services__Social: http://social:5002
   Services__Map: http://map:5003
   Services__Chat: http://chat:5004

@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Mymo.Shared;
+using Mymo.Shared.Protos;
 using Mymo.Social.Bll;
 
 namespace Mymo.Social;
@@ -81,5 +82,62 @@ public static class SocialEndpoints
                 ? Results.Ok(ApiResponse<object>.Ok(new { url = result.Url, publicId = result.PublicId }))
                 : Results.BadRequest(ApiResponse<object>.Fail(result.Error ?? "Upload thất bại"));
         }).RequireAuthorization().DisableAntiforgery();
+
+        // gRPC Client Integration endpoints (for PRN232 Evidence)
+        var grpc = app.MapGroup("/api/grpc");
+        grpc.MapGet("/users/{id:guid}", async (Guid id, UserGrpcService.UserGrpcServiceClient client) =>
+        {
+            var reply = await client.GetUserByIdAsync(new GetUserByIdRequest { UserId = id.ToString() });
+            if (!reply.Found)
+            {
+                return Results.NotFound(ApiResponse<object>.Fail("User not found via gRPC"));
+            }
+            return Results.Ok(ApiResponse<object>.Ok(new
+            {
+                source = "gRPC from Identity Service (:5011)",
+                protocol = "HTTP/2 (gRPC)",
+                user = new
+                {
+                    userId = reply.UserId,
+                    username = reply.Username,
+                    displayName = reply.DisplayName,
+                    avatarUrl = reply.AvatarUrl,
+                    isOnline = reply.IsOnline,
+                    isPremium = reply.IsPremium,
+                    role = reply.Role
+                }
+            }, "Query user via gRPC successful"));
+        });
+
+        grpc.MapPost("/users/batch", async (UserGrpcService.UserGrpcServiceClient client, JsonElement body) =>
+        {
+            var req = new GetUsersBatchRequest();
+            if (body.TryGetProperty("ids", out var idsProp) && idsProp.ValueKind == JsonValueKind.Array)
+            {
+                foreach (var item in idsProp.EnumerateArray())
+                {
+                    var idStr = item.GetString();
+                    if (!string.IsNullOrEmpty(idStr)) req.UserIds.Add(idStr);
+                }
+            }
+
+            var reply = await client.GetUsersBatchAsync(req);
+            return Results.Ok(ApiResponse<object>.Ok(new
+            {
+                source = "gRPC from Identity Service (:5011)",
+                protocol = "HTTP/2 (gRPC)",
+                totalFound = reply.Users.Count,
+                users = reply.Users.Select(u => new
+                {
+                    userId = u.UserId,
+                    username = u.Username,
+                    displayName = u.DisplayName,
+                    avatarUrl = u.AvatarUrl,
+                    isOnline = u.IsOnline,
+                    isPremium = u.IsPremium,
+                    role = u.Role
+                })
+            }, "Query batch users via gRPC successful"));
+        });
     }
 }
