@@ -12,6 +12,7 @@ public sealed class RabbitCommandBus : ICommandBus, IDisposable
     private IModel? _channel;
     private readonly ILogger<RabbitCommandBus> _log;
     private readonly IConfiguration _config;
+    private DateTime _unavailableUntil = DateTime.MinValue;
 
     public RabbitCommandBus(IConfiguration config, ILogger<RabbitCommandBus> log)
     {
@@ -28,18 +29,25 @@ public sealed class RabbitCommandBus : ICommandBus, IDisposable
             {
                 Uri = new Uri(_config["Messaging:RabbitMq"] ?? "amqp://guest:guest@localhost:5672"),
                 DispatchConsumersAsync = true,
+                RequestedConnectionTimeout = TimeSpan.FromSeconds(2),
             };
             _connection = factory.CreateConnection("mymo-commands");
             _channel = _connection.CreateModel();
         }
         catch (Exception ex)
         {
+            _unavailableUntil = DateTime.UtcNow.AddSeconds(30);
             _log.LogWarning("RabbitMQ connection failed: {Message}", ex.Message);
         }
     }
 
     public Task PublishAsync<T>(string queue, T message, CancellationToken ct = default)
     {
+        if (DateTime.UtcNow < _unavailableUntil)
+        {
+            return Task.CompletedTask;
+        }
+
         try
         {
             EnsureChannel();

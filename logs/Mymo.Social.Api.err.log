@@ -1,0 +1,3 @@
+%3|1794892888.421|FAIL|rdkafka#producer-1| [thrd:localhost:9092/bootstrap]: localhost:9092/bootstrap: Connect to ipv4#127.0.0.1:9092 failed: Unknown error (after 2042ms in state CONNECT)
+%3|1794892888.421|ERROR|rdkafka#producer-1| [thrd:localhost:9092/bootstrap]: 1/1 brokers are down
+%3|1794892888.422|ERROR|rdkafka#producer-1| [thrd:app]: rdkafka#producer-1: localhost:9092/bootstrap: Connect to ipv4#127.0.0.1:9092 failed: Unknown error (after 2042ms in state CONNECT)

@@ -10,6 +10,7 @@ public sealed class KafkaEventBus : IEventBus, IDisposable
     private IProducer<Null, string>? _producer;
     private readonly ILogger<KafkaEventBus> _log;
     private readonly IConfiguration _config;
+    private DateTime _unavailableUntil = DateTime.MinValue;
 
     public KafkaEventBus(IConfiguration config, ILogger<KafkaEventBus> log)
     {
@@ -27,31 +28,43 @@ public sealed class KafkaEventBus : IEventBus, IDisposable
             {
                 BootstrapServers = bootstrap,
                 Acks = Acks.Leader,
+                MessageTimeoutMs = 2000,
+                SocketTimeoutMs = 2000,
             }).Build();
         }
         catch (Exception ex)
         {
+            _unavailableUntil = DateTime.UtcNow.AddSeconds(30);
             _log.LogWarning("Kafka producer initialization failed: {Message}", ex.Message);
         }
     }
 
     public async Task PublishAsync<T>(string topic, T message, CancellationToken ct = default)
     {
+        if (DateTime.UtcNow < _unavailableUntil)
+        {
+            return;
+        }
+
         try
         {
             EnsureProducer();
             if (_producer == null)
             {
+                _unavailableUntil = DateTime.UtcNow.AddSeconds(30);
                 _log.LogWarning("Kafka unavailable. Event {Topic} skipped.", topic);
                 return;
             }
             var payload = JsonSerializer.Serialize(message, Internal.JsonOptions);
-            await _producer.ProduceAsync(topic, new Message<Null, string> { Value = payload }, ct);
+            using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+            timeoutCts.CancelAfter(TimeSpan.FromSeconds(2));
+            await _producer.ProduceAsync(topic, new Message<Null, string> { Value = payload }, timeoutCts.Token);
             _log.LogInformation("Published event {Topic}", topic);
         }
         catch (Exception ex)
         {
-            _log.LogError(ex, "Failed publishing event {Topic}", topic);
+            _unavailableUntil = DateTime.UtcNow.AddSeconds(30);
+            _log.LogWarning("Kafka publish failed or timed out for {Topic}: {Message}. Skipping Kafka for 30s.", topic, ex.Message);
         }
     }
 
