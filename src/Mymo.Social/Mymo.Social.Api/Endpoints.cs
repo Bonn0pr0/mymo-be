@@ -69,5 +69,17 @@ public static class SocialEndpoints
             if (!Internal.Allowed(request, config)) return Results.Unauthorized();
             return (await posts.Activity(id)).ToHttp();
         });
+
+        // Upload ảnh / video lên Cloudinary
+        app.MapPost("/api/upload", async (IFormFile file, CloudinaryService cloudinary) =>
+        {
+            if (file == null || file.Length == 0)
+                return Results.BadRequest(ApiResponse<object>.Fail("Không có file"));
+            await using var stream = file.OpenReadStream();
+            var result = await cloudinary.UploadAsync(stream, file.FileName, folder: "mymo/social");
+            return result.Success
+                ? Results.Ok(ApiResponse<object>.Ok(new { url = result.Url, publicId = result.PublicId }))
+                : Results.BadRequest(ApiResponse<object>.Fail(result.Error ?? "Upload thất bại"));
+        }).RequireAuthorization().DisableAntiforgery();
     }
 }

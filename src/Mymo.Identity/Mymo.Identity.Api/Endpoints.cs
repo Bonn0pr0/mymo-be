@@ -51,11 +51,26 @@ public static class IdentityEndpoints
         internalApi.MapPost("/users/batch", async (HttpRequest request, IConfiguration config, UserService users, IdList body) => Gate(request, config, () => users.InternalBatch(body)));
         internalApi.MapGet("/users/search", async (HttpRequest request, IConfiguration config, UserService users, string? keyword) => Gate(request, config, () => users.InternalSearch(keyword)));
         internalApi.MapPost("/users/{id:guid}/presence", async (Guid id, HttpRequest request, IConfiguration config, UserService users, JsonElement body) => Gate(request, config, () => users.Presence(id, body)));
+        MapUpload(app);
     }
 
     static async Task<IResult> Gate(HttpRequest request, IConfiguration config, Func<Task<ServiceResult>> action)
     {
         if (!Internal.Allowed(request, config)) return Results.Unauthorized();
         return (await action()).ToHttp();
+    }
+
+    static void MapUpload(WebApplication app)
+    {
+        app.MapPost("/api/upload", async (IFormFile file, CloudinaryService cloudinary) =>
+        {
+            if (file == null || file.Length == 0)
+                return Results.BadRequest(ApiResponse<object>.Fail("Không có file"));
+            await using var stream = file.OpenReadStream();
+            var result = await cloudinary.UploadAsync(stream, file.FileName, folder: "mymo/identity");
+            return result.Success
+                ? Results.Ok(ApiResponse<object>.Ok(new { url = result.Url, publicId = result.PublicId }))
+                : Results.BadRequest(ApiResponse<object>.Fail(result.Error ?? "Upload thất bại"));
+        }).RequireAuthorization().DisableAntiforgery();
     }
 }

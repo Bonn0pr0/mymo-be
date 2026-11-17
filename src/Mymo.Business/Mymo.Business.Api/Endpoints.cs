@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Mymo.Business.Bll;
+using Mymo.Shared;
 
 namespace Mymo.Business;
 
@@ -57,5 +58,19 @@ public static class BusinessEndpoints
         adminPay.MapGet("/payments", async (BusinessService biz) => (await biz.Payments()).ToHttp());
         adminPay.MapPost("/premium-orders/{id:guid}/confirm", async (Guid id, BusinessService biz) => (await biz.ConfirmPremium(id)).ToHttp());
         adminPay.MapPost("/campaigns/{id:guid}/confirm", async (Guid id, BusinessService biz) => (await biz.PayCampaign(id)).ToHttp());
+
+        // Upload ảnh / video lên Cloudinary
+        app.MapPost("/api/upload", async (IFormFile file, CloudinaryService cloudinary) =>
+        {
+            if (file == null || file.Length == 0)
+                return Results.BadRequest(ApiResponse<object>.Fail("Không có file"));
+
+            await using var stream = file.OpenReadStream();
+            var result = await cloudinary.UploadAsync(stream, file.FileName);
+
+            return result.Success
+                ? Results.Ok(ApiResponse<object>.Ok(new { url = result.Url, publicId = result.PublicId }))
+                : Results.BadRequest(ApiResponse<object>.Fail(result.Error ?? "Upload thất bại"));
+        }).RequireAuthorization().DisableAntiforgery();
     }
 }

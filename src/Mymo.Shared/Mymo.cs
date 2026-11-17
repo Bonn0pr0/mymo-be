@@ -204,6 +204,7 @@ public static class MymoService
             client.DefaultRequestHeaders.Add("X-Internal-Key", config["Internal:Key"] ?? "mymo-local");
         });
         services.AddMymoMessaging(config);
+        services.AddCloudinary();
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
