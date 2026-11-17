@@ -4,3 +4,4 @@ obj/
 data/uploads/
 .env
 appsettings.Development.json
+/logs/

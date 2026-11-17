@@ -16,6 +16,15 @@ if (Test-Path $envFile) {
     }
 }
 
+# Use the same Gemini settings for direct and Docker startup.
+if ([string]::IsNullOrWhiteSpace($env:Gemini__ApiKey) -and $env:GEMINI_API_KEY) {
+    $env:Gemini__ApiKey = $env:GEMINI_API_KEY.Trim().Trim('"').Trim("'")
+}
+
+if ([string]::IsNullOrWhiteSpace($env:Gemini__Model) -and $env:MYMO_GEMINI_MODEL) {
+    $env:Gemini__Model = $env:MYMO_GEMINI_MODEL.Trim().Trim('"').Trim("'")
+}
+
 $services = @(
     @{ Name = "Mymo.Identity.Api"; Port = 5001; Path = "src\Mymo.Identity\Mymo.Identity.Api" },
     @{ Name = "Mymo.Social.Api";   Port = 5002; Path = "src\Mymo.Social\Mymo.Social.Api" },
