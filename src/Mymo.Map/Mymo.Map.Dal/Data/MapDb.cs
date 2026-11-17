@@ -96,6 +96,38 @@ public class MapDbContext : DbContext
         modelBuilder.Entity<PlacePhotoRow>().HasKey(p => p.PlacePhotoId);
         modelBuilder.Entity<CheckInRow>().HasKey(c => c.CheckInId);
         modelBuilder.Entity<ReviewRow>().HasKey(r => r.ReviewId);
+        modelBuilder.Entity<ImpressionRow>().HasKey(i => i.Id);
+
+        // Foreign keys within Map service
+        modelBuilder.Entity<PlaceRow>()
+            .HasOne<PlaceCategoryRow>()
+            .WithMany()
+            .HasForeignKey(p => p.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<PlacePhotoRow>()
+            .HasOne<PlaceRow>()
+            .WithMany()
+            .HasForeignKey(p => p.PlaceId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ReviewRow>()
+            .HasOne<PlaceRow>()
+            .WithMany()
+            .HasForeignKey(r => r.PlaceId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<CheckInRow>()
+            .HasOne<PlaceRow>()
+            .WithMany()
+            .HasForeignKey(c => c.PlaceId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ImpressionRow>()
+            .HasOne<PlaceRow>()
+            .WithMany()
+            .HasForeignKey(i => i.PlaceId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
 

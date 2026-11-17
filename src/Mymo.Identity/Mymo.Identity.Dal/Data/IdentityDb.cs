@@ -96,6 +96,25 @@ public class IdentityDbContext : DbContext
         modelBuilder.Entity<AppUser>().HasIndex(u => u.Username).IsUnique();
         modelBuilder.Entity<UserSession>().HasIndex(s => s.RefreshToken);
         modelBuilder.Entity<OtpChallenge>().HasIndex(o => new { o.Email, o.Purpose });
+
+        // Foreign keys within Identity service
+        modelBuilder.Entity<UserSession>()
+            .HasOne<AppUser>()
+            .WithMany()
+            .HasForeignKey(s => s.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<AuditLogRow>()
+            .HasOne<AppUser>()
+            .WithMany()
+            .HasForeignKey(a => a.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<ReportRow>()
+            .HasOne<AppUser>()
+            .WithMany()
+            .HasForeignKey(r => r.ReporterId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
 

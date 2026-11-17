@@ -49,6 +49,19 @@ public class ChatDbContext : DbContext
         modelBuilder.Entity<ConversationRow>().HasKey(c => c.ConversationId);
         modelBuilder.Entity<MemberRow>().HasKey(m => m.MemberId);
         modelBuilder.Entity<MessageRow>().HasKey(m => m.MessageId);
+
+        // Foreign keys within Chat service
+        modelBuilder.Entity<MemberRow>()
+            .HasOne<ConversationRow>()
+            .WithMany()
+            .HasForeignKey(m => m.ConversationId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<MessageRow>()
+            .HasOne<ConversationRow>()
+            .WithMany()
+            .HasForeignKey(m => m.ConversationId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
 

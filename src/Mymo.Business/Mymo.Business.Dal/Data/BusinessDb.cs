@@ -121,6 +121,19 @@ public class BusinessDbContext : DbContext
         modelBuilder.Entity<PackageRow>().HasKey(p => p.ProductPackageId);
         modelBuilder.Entity<PremiumOrderRow>().HasKey(o => o.OrderId);
         modelBuilder.Entity<CampaignRow>().HasKey(c => c.CampaignId);
+
+        // Foreign keys within Business service
+        modelBuilder.Entity<MenuItemRow>()
+            .HasOne<MenuRow>()
+            .WithMany()
+            .HasForeignKey(m => m.MenuId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<CampaignRow>()
+            .HasOne<BusinessRow>()
+            .WithMany()
+            .HasForeignKey(c => c.BusinessId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
 

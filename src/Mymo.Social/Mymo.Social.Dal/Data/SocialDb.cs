@@ -119,6 +119,37 @@ public class SocialDbContext : DbContext
         modelBuilder.Entity<NotificationRow>().HasKey(n => n.NotificationId);
         modelBuilder.Entity<LikeRow>().HasIndex(l => new { l.PostId, l.UserId }).IsUnique();
         modelBuilder.Entity<FriendshipRow>().HasIndex(f => new { f.RequesterId, f.ReceiverId });
+
+        // Foreign keys within Social service
+        modelBuilder.Entity<MediaRow>()
+            .HasOne<PostRow>()
+            .WithMany()
+            .HasForeignKey(m => m.PostId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<CommentRow>()
+            .HasOne<PostRow>()
+            .WithMany()
+            .HasForeignKey(c => c.PostId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<CommentRow>()
+            .HasOne<CommentRow>()
+            .WithMany()
+            .HasForeignKey(c => c.ParentCommentId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<LikeRow>()
+            .HasOne<PostRow>()
+            .WithMany()
+            .HasForeignKey(l => l.PostId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<PostViewRow>()
+            .HasOne<PostRow>()
+            .WithMany()
+            .HasForeignKey(v => v.PostId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
 
