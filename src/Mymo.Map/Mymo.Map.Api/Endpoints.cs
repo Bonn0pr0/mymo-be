@@ -32,13 +32,13 @@ public static class MapEndpoints
         admin.MapPut("/{id:guid}/reject", async (Guid id, MapService map) => (await map.SetStatus(id, "Rejected")).ToHttp());
         admin.MapPut("/{id:guid}/suspend", async (Guid id, MapService map) => (await map.SetStatus(id, "Suspended")).ToHttp());
 
-        app.MapPost("/internal/places/lookup", async (HttpRequest request, IConfiguration config, MapService map, IdList body) => Gate(request, config, () => map.Lookup(body)));
-        app.MapGet("/internal/places/{id:guid}", async (Guid id, HttpRequest request, IConfiguration config, MapService map) => Gate(request, config, () => map.One(id)));
-        app.MapGet("/internal/places/by-business/{id:guid}", async (Guid id, HttpRequest request, IConfiguration config, MapService map) => Gate(request, config, () => map.ByBusiness(id)));
-        app.MapPost("/internal/places", async (HttpRequest request, IConfiguration config, MapService map, JsonElement body) => Gate(request, config, () => map.CreatePlace(body)));
-        app.MapPut("/internal/places/{id:guid}", async (Guid id, HttpRequest request, IConfiguration config, MapService map, JsonElement body) => Gate(request, config, () => map.UpdatePlace(id, body)));
-        app.MapGet("/internal/users/{id:guid}/activity", async (Guid id, HttpRequest request, IConfiguration config, MapService map) => Gate(request, config, () => map.Activity(id)));
-        app.MapGet("/internal/users/{id:guid}/visited", async (Guid id, HttpRequest request, IConfiguration config, MapService map) => Gate(request, config, () => map.Visited(id)));
+        app.MapPost("/internal/places/lookup", async (HttpRequest request, IConfiguration config, MapService map, IdList body) => await Gate(request, config, () => map.Lookup(body)));
+        app.MapGet("/internal/places/{id:guid}", async (Guid id, HttpRequest request, IConfiguration config, MapService map) => await Gate(request, config, () => map.One(id)));
+        app.MapGet("/internal/places/by-business/{id:guid}", async (Guid id, HttpRequest request, IConfiguration config, MapService map) => await Gate(request, config, () => map.ByBusiness(id)));
+        app.MapPost("/internal/places", async (HttpRequest request, IConfiguration config, MapService map, JsonElement body) => await Gate(request, config, () => map.CreatePlace(body)));
+        app.MapPut("/internal/places/{id:guid}", async (Guid id, HttpRequest request, IConfiguration config, MapService map, JsonElement body) => await Gate(request, config, () => map.UpdatePlace(id, body)));
+        app.MapGet("/internal/users/{id:guid}/activity", async (Guid id, HttpRequest request, IConfiguration config, MapService map) => await Gate(request, config, () => map.Activity(id)));
+        app.MapGet("/internal/users/{id:guid}/visited", async (Guid id, HttpRequest request, IConfiguration config, MapService map) => await Gate(request, config, () => map.Visited(id)));
         MapUpload(app);
     }
 

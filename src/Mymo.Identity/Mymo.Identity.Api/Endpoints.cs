@@ -47,10 +47,10 @@ public static class IdentityEndpoints
         admin.MapPut("/settings/bank-transfer", (AdminService admin) => admin.SaveBank().ToHttp());
 
         var internalApi = app.MapGroup("/internal");
-        internalApi.MapGet("/users/{id:guid}", async (Guid id, HttpRequest request, IConfiguration config, UserService users) => Gate(request, config, () => users.InternalUser(id)));
-        internalApi.MapPost("/users/batch", async (HttpRequest request, IConfiguration config, UserService users, IdList body) => Gate(request, config, () => users.InternalBatch(body)));
-        internalApi.MapGet("/users/search", async (HttpRequest request, IConfiguration config, UserService users, string? keyword) => Gate(request, config, () => users.InternalSearch(keyword)));
-        internalApi.MapPost("/users/{id:guid}/presence", async (Guid id, HttpRequest request, IConfiguration config, UserService users, JsonElement body) => Gate(request, config, () => users.Presence(id, body)));
+        internalApi.MapGet("/users/{id:guid}", async (Guid id, HttpRequest request, IConfiguration config, UserService users) => await Gate(request, config, () => users.InternalUser(id)));
+        internalApi.MapPost("/users/batch", async (HttpRequest request, IConfiguration config, UserService users, IdList body) => await Gate(request, config, () => users.InternalBatch(body)));
+        internalApi.MapGet("/users/search", async (HttpRequest request, IConfiguration config, UserService users, string? keyword) => await Gate(request, config, () => users.InternalSearch(keyword)));
+        internalApi.MapPost("/users/{id:guid}/presence", async (Guid id, HttpRequest request, IConfiguration config, UserService users, JsonElement body) => await Gate(request, config, () => users.Presence(id, body)));
         MapUpload(app);
     }
 

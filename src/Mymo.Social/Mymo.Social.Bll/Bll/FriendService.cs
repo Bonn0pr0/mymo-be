@@ -63,7 +63,7 @@ public class FriendService
         var me = HttpUser.Id(principal)!.Value;
         var known = await FriendIds(me);
         known.Add(me);
-        var cards = await Internal.GetAsync<List<UserCard>>(_http, $"{_config["Services:Identity"]}/internal/users/search?keyword=m") ?? [];
+        var cards = await Internal.GetAsync<List<UserCard>>(_http, $"{_config["Services:Identity"]}/internal/users/search?keyword=") ?? [];
         return ServiceResult.Ok(ApiResponse<object>.Ok(cards.Where(c => !known.Contains(c.UserId)).Take(10).Select(c => FriendDto(c))));
     }
 
@@ -107,7 +107,6 @@ public class FriendService
         var me = HttpUser.Id(principal)!.Value;
         var row = await _data.Between(me, id);
         var status = row?.Status ?? "None";
-        if (status == "Accepted") status = "Friends";
         return ServiceResult.Ok(ApiResponse<object>.Ok(new { userId = id, status, isIncoming = row?.ReceiverId == me && row.Status == "Pending" }));
     }
 
